@@ -1,0 +1,6151 @@
+.\" Man page generated from reStructuredText.
+.
+.TH "PIP" "1" "December 03, 2018" "9.0" "pip"
+.SH NAME
+pip \- pip 9.0.3
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.sp
+\fI\%User list\fP |
+\fI\%Dev list\fP |
+\fI\%Github\fP |
+\fI\%PyPI\fP |
+User IRC: #pypa |
+Dev IRC: #pypa\-dev
+.sp
+The \fI\%PyPA recommended\fP tool
+for installing Python packages.
+.SH QUICKSTART
+.sp
+First, Install pip\&.
+.sp
+Install a package from \fI\%PyPI\fP:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install SomePackage
+  [...]
+  Successfully installed SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Install a package already downloaded from \fI\%PyPI\fP or got elsewhere.
+This is useful if the target machine does not have a network connection:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install SomePackage\-1.0\-py2.py3\-none\-any.whl
+  [...]
+  Successfully installed SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Show what files were installed:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip show \-\-files SomePackage
+  Name: SomePackage
+  Version: 1.0
+  Location: /my/env/lib/pythonx.x/site\-packages
+  Files:
+   ../somepackage/__init__.py
+   [...]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+List what packages are outdated:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip list \-\-outdated
+  SomePackage (Current: 1.0 Latest: 2.0)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Upgrade a package:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-upgrade SomePackage
+  [...]
+  Found existing installation: SomePackage 1.0
+  Uninstalling SomePackage:
+    Successfully uninstalled SomePackage
+  Running setup.py install for SomePackage
+  Successfully installed SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Uninstall a package:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip uninstall SomePackage
+  Uninstalling SomePackage:
+    /my/env/lib/pythonx.x/site\-packages/somepackage
+  Proceed (y/n)? y
+  Successfully uninstalled SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SH INSTALLATION
+.SS Do I need to install pip?
+.sp
+pip is already installed if you\(aqre using Python 2 >=2.7.9 or Python 3 >=3.4
+binaries downloaded from \fI\%python.org\fP, but you\(aqll
+need to \fI\%upgrade pip\fP\&.
+.sp
+Additionally, pip will already be installed if you\(aqre working in a \fI\%Virtual
+Environment\fP created by
+\fI\%virtualenv\fP or \fI\%pyvenv\fP\&.
+.SS Installing with get\-pip.py
+.sp
+To install pip, securely download \fI\%get\-pip.py\fP\&. [2]
+.sp
+Then run the following:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+python get\-pip.py
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+\fBWARNING:\fP
+.INDENT 0.0
+.INDENT 3.5
+Be cautious if you\(aqre using a Python install that\(aqs managed by your operating
+system or another package manager. get\-pip.py does not coordinate with
+those tools, and may leave your system in an inconsistent state.
+.UNINDENT
+.UNINDENT
+.sp
+get\-pip.py will also install \fI\%setuptools\fP [3] and \fI\%wheel\fP,
+if they\(aqre not already. \fI\%setuptools\fP is required to install
+\fI\%source distributions\fP\&.  Both are
+required to be able to build a Wheel cache (which improves installation
+speed), although neither are required to install pre\-built \fI\%wheels\fP\&.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The get\-pip.py script is supported on the same python version as pip.
+For the now unsupported Python 3.2, an alternate script is available
+\fI\%here\fP\&.
+.UNINDENT
+.UNINDENT
+.SS get\-pip.py options
+.INDENT 0.0
+.TP
+.B \-\-no\-setuptools
+If set, don\(aqt attempt to install \fI\%setuptools\fP
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-wheel
+If set, don\(aqt attempt to install \fI\%wheel\fP
+.UNINDENT
+.sp
+Additionally, \fBget\-pip.py\fP supports using the pip install options and the general options\&. Below are
+some examples:
+.sp
+Install from local copies of pip and setuptools:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+python get\-pip.py \-\-no\-index \-\-find\-links=/local/copies
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Install to the user site [4]:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+python get\-pip.py \-\-user
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Install behind a proxy:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+python get\-pip.py \-\-proxy="[user:passwd@]proxy.server:port"
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Using Linux Package Managers
+.sp
+See \fI\%Installing pip/setuptools/wheel with Linux Package Managers\fP in
+the \fI\%Python Packaging User Guide\fP\&.
+.SS Upgrading pip
+.sp
+On Linux or macOS:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install \-U pip
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+On Windows [5]:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+python \-m pip install \-U pip
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Python and OS Compatibility
+.sp
+pip works with CPython versions 2.6, 2.7, 3.3, 3.4, 3.5 and also pypy.
+.sp
+This means pip works on the latest patch version of each of these minor versions
+(i.e. 2.6.9 for 2.6, etc).
+Previous patch versions are supported on a best effort approach.
+.sp
+pip works on Unix/Linux, macOS, and Windows.
+
+.sp
+.ce
+----
+
+.ce 0
+.sp
+.IP [1] 5
+For Python 2, see \fI\%https://docs.python.org/2/installing\fP, and for Python3,
+see \fI\%https://docs.python.org/3/installing\fP\&.
+.IP [2] 5
+"Secure" in this context means using a modern browser or a
+tool like \fIcurl\fP that verifies SSL certificates when downloading from
+https URLs.
+.IP [3] 5
+Beginning with pip v1.5.1, \fBget\-pip.py\fP stopped requiring setuptools to
+be installed first.
+.IP [4] 5
+The pip developers are considering making \fB\-\-user\fP the default for all
+installs, including \fBget\-pip.py\fP installs of pip, but at this time,
+\fB\-\-user\fP installs for pip itself, should not be considered to be fully
+tested or endorsed. For discussion, see \fI\%Issue 1668\fP\&.
+.IP [5] 5
+\fI\%https://github.com/pypa/pip/issues/1299\fP
+.SH USER GUIDE
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%User Guide\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Installing Packages\fP
+.IP \(bu 2
+\fI\%Requirements Files\fP
+.IP \(bu 2
+\fI\%Constraints Files\fP
+.IP \(bu 2
+\fI\%Installing from Wheels\fP
+.IP \(bu 2
+\fI\%Uninstalling Packages\fP
+.IP \(bu 2
+\fI\%Listing Packages\fP
+.IP \(bu 2
+\fI\%Searching for Packages\fP
+.IP \(bu 2
+\fI\%Configuration\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Config file\fP
+.IP \(bu 2
+\fI\%Environment Variables\fP
+.IP \(bu 2
+\fI\%Config Precedence\fP
+.IP \(bu 2
+\fI\%Command Completion\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%Installing from local packages\fP
+.IP \(bu 2
+\fI\%"Only if needed" Recursive Upgrade\fP
+.IP \(bu 2
+\fI\%User Installs\fP
+.IP \(bu 2
+\fI\%Ensuring Repeatability\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Pinned Version Numbers\fP
+.IP \(bu 2
+\fI\%Hash\-checking Mode\fP
+.IP \(bu 2
+\fI\%Installation Bundles\fP
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS Installing Packages
+.sp
+pip supports installing from \fI\%PyPI\fP, version control, local projects, and
+directly from distribution files.
+.sp
+The most common scenario is to install from \fI\%PyPI\fP using Requirement
+Specifiers
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install SomePackage            # latest version
+$ pip install SomePackage==1.0.4     # specific version
+$ pip install \(aqSomePackage>=1.0.4\(aq     # minimum version
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+For more information and examples, see the pip install reference.
+.SS Requirements Files
+.sp
+"Requirements files" are files containing a list of items to be
+installed using pip install like so:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install \-r requirements.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+Details on the format of the files are here: Requirements File Format\&.
+.sp
+Logically, a Requirements file is just a list of pip install arguments
+placed in a file. Note that you should not rely on the items in the file being
+installed by pip in any particular order.
+.sp
+In practice, there are 4 common uses of Requirements files:
+.INDENT 0.0
+.IP 1. 3
+Requirements files are used to hold the result from pip freeze for the
+purpose of achieving \fI\%repeatable installations\fP\&.  In
+this case, your requirement file contains a pinned version of everything that
+was installed when \fIpip freeze\fP was run.
+.INDENT 3.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip freeze > requirements.txt
+pip install \-r requirements.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.IP 2. 3
+Requirements files are used to force pip to properly resolve dependencies.
+As it is now, pip \fI\%doesn\(aqt have true dependency resolution\fP, but instead simply uses the first
+specification it finds for a project. E.g if \fIpkg1\fP requires \fIpkg3>=1.0\fP and
+\fIpkg2\fP requires \fIpkg3>=1.0,<=2.0\fP, and if \fIpkg1\fP is resolved first, pip will
+only use \fIpkg3>=1.0\fP, and could easily end up installing a version of \fIpkg3\fP
+that conflicts with the needs of \fIpkg2\fP\&.  To solve this problem, you can
+place \fIpkg3>=1.0,<=2.0\fP (i.e. the correct specification) into your
+requirements file directly along with the other top level requirements. Like
+so:
+.INDENT 3.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pkg1
+pkg2
+pkg3>=1.0,<=2.0
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.IP 3. 3
+Requirements files are used to force pip to install an alternate version of a
+sub\-dependency.  For example, suppose \fIProjectA\fP in your requirements file
+requires \fIProjectB\fP, but the latest version (v1.3) has a bug, you can force
+pip to accept earlier versions like so:
+.INDENT 3.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+ProjectA
+ProjectB<1.3
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.IP 4. 3
+Requirements files are used to override a dependency with a local patch that
+lives in version control.  For example, suppose a dependency,
+\fISomeDependency\fP from PyPI has a bug, and you can\(aqt wait for an upstream fix.
+You could clone/copy the src, make the fix, and place it in VCS with the tag
+\fIsometag\fP\&.  You\(aqd reference it in your requirements file with a line like so:
+.INDENT 3.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+git+https://myvcs.com/some_dependency@sometag#egg=SomeDependency
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+If \fISomeDependency\fP was previously a top\-level requirement in your
+requirements file, then \fBreplace\fP that line with the new line. If
+\fISomeDependency\fP is a sub\-dependency, then \fBadd\fP the new line.
+.UNINDENT
+.sp
+It\(aqs important to be clear that pip determines package dependencies using
+\fI\%install_requires metadata\fP,
+not by discovering \fIrequirements.txt\fP files embedded in projects.
+.sp
+See also:
+.INDENT 0.0
+.IP \(bu 2
+Requirements File Format
+.IP \(bu 2
+pip freeze
+.IP \(bu 2
+\fI\%"setup.py vs requirements.txt" (an article by Donald Stufft)\fP
+.UNINDENT
+.SS Constraints Files
+.sp
+Constraints files are requirements files that only control which version of a
+requirement is installed, not whether it is installed or not. Their syntax and
+contents is nearly identical to \fI\%Requirements Files\fP\&. There is one key
+difference: Including a package in a constraints file does not trigger
+installation of the package.
+.sp
+Use a constraints file like so:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install \-c constraints.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+Constraints files are used for exactly the same reason as requirements files
+when you don\(aqt know exactly what things you want to install. For instance, say
+that the "helloworld" package doesn\(aqt work in your environment, so you have a
+local patched version. Some things you install depend on "helloworld", and some
+don\(aqt.
+.sp
+One way to ensure that the patched version is used consistently is to
+manually audit the dependencies of everything you install, and if "helloworld"
+is present, write a requirements file to use when installing that thing.
+.sp
+Constraints files offer a better way: write a single constraints file for your
+organisation and use that everywhere. If the thing being installed requires
+"helloworld" to be installed, your fixed version specified in your constraints
+file will be used.
+.sp
+Constraints file support was added in pip 7.1.
+.SS Installing from Wheels
+.sp
+"Wheel" is a built, archive format that can greatly speed installation compared
+to building and installing from source archives. For more information, see the
+\fI\%Wheel docs\fP ,
+\fI\%PEP427\fP, and
+\fI\%PEP425\fP
+.sp
+Pip prefers Wheels where they are available. To disable this, use the
+\-\-no\-binary flag for pip install\&.
+.sp
+If no satisfactory wheels are found, pip will default to finding source archives.
+.sp
+To install directly from a wheel archive:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install SomePackage\-1.0\-py2.py3\-none\-any.whl
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+For the cases where wheels are not available, pip offers pip wheel as a
+convenience, to build wheels for all your requirements and dependencies.
+.sp
+pip wheel requires the \fI\%wheel package\fP to be installed, which provides the
+"bdist_wheel" setuptools extension that it uses.
+.sp
+To build wheels for your requirements and all their dependencies to a local directory:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install wheel
+pip wheel \-\-wheel\-dir=/local/wheels \-r requirements.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+And \fIthen\fP to install those requirements just using your local directory of wheels (and not from PyPI):
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install \-\-no\-index \-\-find\-links=/local/wheels \-r requirements.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Uninstalling Packages
+.sp
+pip is able to uninstall most packages like so:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip uninstall SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+pip also performs an automatic uninstall of an old version of a package
+before upgrading to a newer version.
+.sp
+For more information and examples, see the pip uninstall reference.
+.SS Listing Packages
+.sp
+To list installed packages:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip list
+docutils (0.9.1)
+Jinja2 (2.6)
+Pygments (1.5)
+Sphinx (1.1.2)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+To list outdated packages, and show the latest version available:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip list \-\-outdated
+docutils (Current: 0.9.1 Latest: 0.10)
+Sphinx (Current: 1.1.2 Latest: 1.1.3)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+To show details about an installed package:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip show sphinx
+\-\-\-
+Name: Sphinx
+Version: 1.1.3
+Location: /my/env/lib/pythonx.x/site\-packages
+Requires: Pygments, Jinja2, docutils
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+For more information and examples, see the pip list and pip show
+reference pages.
+.SS Searching for Packages
+.sp
+pip can search \fI\%PyPI\fP for packages using the \fBpip search\fP
+command:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip search "query"
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+The query will be used to search the names and summaries of all
+packages.
+.sp
+For more information and examples, see the pip search reference.
+.SS Configuration
+.SS Config file
+.sp
+pip allows you to set all command line option defaults in a standard ini
+style config file.
+.sp
+The names and locations of the configuration files vary slightly across
+platforms. You may have per\-user, per\-virtualenv or site\-wide (shared amongst
+all users) configuration:
+.sp
+\fBPer\-user\fP:
+.INDENT 0.0
+.IP \(bu 2
+On Unix the default configuration file is: \fB$HOME/.config/pip/pip.conf\fP
+which respects the \fBXDG_CONFIG_HOME\fP environment variable.
+.IP \(bu 2
+On macOS the configuration file is
+\fB$HOME/Library/Application Support/pip/pip.conf\fP\&.
+.IP \(bu 2
+On Windows the configuration file is \fB%APPDATA%\epip\epip.ini\fP\&.
+.UNINDENT
+.sp
+There are also a legacy per\-user configuration file which is also respected,
+these are located at:
+.INDENT 0.0
+.IP \(bu 2
+On Unix and macOS the configuration file is: \fB$HOME/.pip/pip.conf\fP
+.IP \(bu 2
+On Windows the configuration file is: \fB%HOME%\epip\epip.ini\fP
+.UNINDENT
+.sp
+You can set a custom path location for this config file using the environment
+variable \fBPIP_CONFIG_FILE\fP\&.
+.sp
+\fBInside a virtualenv\fP:
+.INDENT 0.0
+.IP \(bu 2
+On Unix and macOS the file is \fB$VIRTUAL_ENV/pip.conf\fP
+.IP \(bu 2
+On Windows the file is: \fB%VIRTUAL_ENV%\epip.ini\fP
+.UNINDENT
+.sp
+\fBSite\-wide\fP:
+.INDENT 0.0
+.IP \(bu 2
+On Unix the file may be located in \fB/etc/pip.conf\fP\&. Alternatively
+it may be in a "pip" subdirectory of any of the paths set in the
+environment variable \fBXDG_CONFIG_DIRS\fP (if it exists), for example
+\fB/etc/xdg/pip/pip.conf\fP\&.
+.IP \(bu 2
+On macOS the file is: \fB/Library/Application Support/pip/pip.conf\fP
+.IP \(bu 2
+On Windows XP the file is:
+\fBC:\eDocuments and Settings\eAll Users\eApplication Data\epip\epip.ini\fP
+.IP \(bu 2
+On Windows 7 and later the file is hidden, but writeable at
+\fBC:\eProgramData\epip\epip.ini\fP
+.IP \(bu 2
+Site\-wide configuration is not supported on Windows Vista
+.UNINDENT
+.sp
+If multiple configuration files are found by pip then they are combined in
+the following order:
+.INDENT 0.0
+.IP 1. 3
+Firstly the site\-wide file is read, then
+.IP 2. 3
+The per\-user file is read, and finally
+.IP 3. 3
+The virtualenv\-specific file is read.
+.UNINDENT
+.sp
+Each file read overrides any values read from previous files, so if the
+global timeout is specified in both the site\-wide file and the per\-user file
+then the latter value is the one that will be used.
+.sp
+The names of the settings are derived from the long command line option, e.g.
+if you want to use a different package index (\fB\-\-index\-url\fP) and set the
+HTTP timeout (\fB\-\-default\-timeout\fP) to 60 seconds your config file would
+look like this:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[global]
+timeout = 60
+index\-url = http://download.zope.org/ppix
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Each subcommand can be configured optionally in its own section so that every
+global setting with the same name will be overridden; e.g. decreasing the
+\fBtimeout\fP to \fB10\fP seconds when running the \fIfreeze\fP
+(\fI\%Freezing Requirements\fP) command and using
+\fB60\fP seconds for all other commands is possible with:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[global]
+timeout = 60
+
+[freeze]
+timeout = 10
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Boolean options like \fB\-\-ignore\-installed\fP or \fB\-\-no\-dependencies\fP can be
+set like this:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[install]
+ignore\-installed = true
+no\-dependencies = yes
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+To enable the boolean options \fB\-\-no\-compile\fP and \fB\-\-no\-cache\-dir\fP, falsy
+values have to be used:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[global]
+no\-cache\-dir = false
+
+[install]
+no\-compile = no
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Appending options like \fB\-\-find\-links\fP can be written on multiple lines:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[global]
+find\-links =
+    http://download.example.com
+
+[install]
+find\-links =
+    http://mirror1.example.com
+    http://mirror2.example.com
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Environment Variables
+.sp
+pip\(aqs command line options can be set with environment variables using the
+format \fBPIP_<UPPER_LONG_NAME>\fP . Dashes (\fB\-\fP) have to be replaced with
+underscores (\fB_\fP).
+.sp
+For example, to set the default timeout:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+export PIP_DEFAULT_TIMEOUT=60
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This is the same as passing the option to pip directly:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip \-\-default\-timeout=60 [...]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+To set options that can be set multiple times on the command line, just add
+spaces in between values. For example:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+export PIP_FIND_LINKS="http://mirror1.example.com http://mirror2.example.com"
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+is the same as calling:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install \-\-find\-links=http://mirror1.example.com \-\-find\-links=http://mirror2.example.com
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Config Precedence
+.sp
+Command line options have precedence over environment variables, which have precedence over the config file.
+.sp
+Within the config file, command specific sections have precedence over the global section.
+.sp
+Examples:
+.INDENT 0.0
+.IP \(bu 2
+\fB\-\-host=foo\fP overrides \fBPIP_HOST=foo\fP
+.IP \(bu 2
+\fBPIP_HOST=foo\fP overrides a config file with \fB[global] host = foo\fP
+.IP \(bu 2
+A command specific section in the config file \fB[<command>] host = bar\fP
+overrides the option with same name in the \fB[global]\fP config file section
+.UNINDENT
+.SS Command Completion
+.sp
+pip comes with support for command line completion in bash, zsh and fish.
+.sp
+To setup for bash:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip completion \-\-bash >> ~/.profile
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+To setup for zsh:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip completion \-\-zsh >> ~/.zprofile
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+To setup for fish:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip completion \-\-fish > ~/.config/fish/completions/pip.fish
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Alternatively, you can use the result of the \fBcompletion\fP command
+directly with the eval function of your shell, e.g. by adding the following to your startup file:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+eval "\(gapip completion \-\-bash\(ga"
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Installing from local packages
+.sp
+In some cases, you may want to install from local packages only, with no traffic
+to PyPI.
+.sp
+First, download the archives that fulfill your requirements:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-download DIR \-r requirements.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Note that \fBpip install \-\-download\fP will look in your wheel cache first, before
+trying to download from PyPI.  If you\(aqve never installed your requirements
+before, you won\(aqt have a wheel cache for those items.  In that case, if some of
+your requirements don\(aqt come as wheels from PyPI, and you want wheels, then run
+this instead:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip wheel \-\-wheel\-dir DIR \-r requirements.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Then, to install from local only, you\(aqll be using \-\-find\-links and \-\-no\-index like so:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-no\-index \-\-find\-links=DIR \-r requirements.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS "Only if needed" Recursive Upgrade
+.sp
+\fBpip install \-\-upgrade\fP is currently written to perform an eager recursive
+upgrade, i.e. it upgrades all dependencies regardless of whether they still
+satisfy the new parent requirements.
+.sp
+E.g. supposing:
+.INDENT 0.0
+.IP \(bu 2
+\fISomePackage\-1.0\fP requires \fIAnotherPackage>=1.0\fP
+.IP \(bu 2
+\fISomePackage\-2.0\fP requires \fIAnotherPackage>=1.0\fP and \fIOneMorePackage==1.0\fP
+.IP \(bu 2
+\fISomePackage\-1.0\fP and \fIAnotherPackage\-1.0\fP are currently installed
+.IP \(bu 2
+\fISomePackage\-2.0\fP and \fIAnotherPackage\-2.0\fP are the latest versions available on PyPI.
+.UNINDENT
+.sp
+Running \fBpip install \-\-upgrade SomePackage\fP would upgrade \fISomePackage\fP \fIand\fP
+\fIAnotherPackage\fP despite \fIAnotherPackage\fP already being satisfied.
+.sp
+pip doesn\(aqt currently have an option to do an "only if needed" recursive
+upgrade, but you can achieve it using these 2 steps:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install \-\-upgrade \-\-no\-deps SomePackage
+pip install SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+The first line will upgrade \fISomePackage\fP, but not dependencies like
+\fIAnotherPackage\fP\&.  The 2nd line will fill in new dependencies like
+\fIOneMorePackage\fP\&.
+.sp
+See \fI\%#59\fP for a plan of making "only if needed" recursive the default
+behavior for a new \fBpip upgrade\fP command.
+.SS User Installs
+.sp
+With Python 2.6 came the \fI\%"user scheme" for installation\fP,
+which means that all Python distributions support an alternative install
+location that is specific to a user.  The default location for each OS is
+explained in the python documentation for the \fI\%site.USER_BASE\fP variable.  This mode
+of installation can be turned on by specifying the \-\-user option to \fBpip install\fP\&.
+.sp
+Moreover, the "user scheme" can be customized by setting the
+\fBPYTHONUSERBASE\fP environment variable, which updates the value of \fBsite.USER_BASE\fP\&.
+.sp
+To install "SomePackage" into an environment with site.USER_BASE customized to \(aq/myappenv\(aq, do the following:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+export PYTHONUSERBASE=/myappenv
+pip install \-\-user SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+\fBpip install \-\-user\fP follows four rules:
+.INDENT 0.0
+.IP 1. 3
+When globally installed packages are on the python path, and they \fIconflict\fP
+with the installation requirements, they are ignored, and \fInot\fP
+uninstalled.
+.IP 2. 3
+When globally installed packages are on the python path, and they \fIsatisfy\fP
+the installation requirements, pip does nothing, and reports that
+requirement is satisfied (similar to how global packages can satisfy
+requirements when installing packages in a \fB\-\-system\-site\-packages\fP
+virtualenv).
+.IP 3. 3
+pip will not perform a \fB\-\-user\fP install in a \fB\-\-no\-site\-packages\fP
+virtualenv (i.e. the default kind of virtualenv), due to the user site not
+being on the python path.  The installation would be pointless.
+.IP 4. 3
+In a \fB\-\-system\-site\-packages\fP virtualenv, pip will not install a package
+that conflicts with a package in the virtualenv site\-packages.  The \-\-user
+installation would lack sys.path precedence and be pointless.
+.UNINDENT
+.sp
+To make the rules clearer, here are some examples:
+.sp
+From within a \fB\-\-no\-site\-packages\fP virtualenv (i.e. the default kind):
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-user SomePackage
+Can not perform a \(aq\-\-user\(aq install. User site\-packages are not visible in this virtualenv.
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+From within a \fB\-\-system\-site\-packages\fP virtualenv where \fBSomePackage==0.3\fP is already installed in the virtualenv:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-user SomePackage==0.4
+Will not install to the user site because it will lack sys.path precedence
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+From within a real python, where \fBSomePackage\fP is \fInot\fP installed globally:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-user SomePackage
+[...]
+Successfully installed SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+From within a real python, where \fBSomePackage\fP \fIis\fP installed globally, but is \fInot\fP the latest version:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-user SomePackage
+[...]
+Requirement already satisfied (use \-\-upgrade to upgrade)
+
+$ pip install \-\-user \-\-upgrade SomePackage
+[...]
+Successfully installed SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+From within a real python, where \fBSomePackage\fP \fIis\fP installed globally, and is the latest version:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-user SomePackage
+[...]
+Requirement already satisfied (use \-\-upgrade to upgrade)
+
+$ pip install \-\-user \-\-upgrade SomePackage
+[...]
+Requirement already up\-to\-date: SomePackage
+
+# force the install
+$ pip install \-\-user \-\-ignore\-installed SomePackage
+[...]
+Successfully installed SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Ensuring Repeatability
+.sp
+pip can achieve various levels of repeatability:
+.SS Pinned Version Numbers
+.sp
+Pinning the versions of your dependencies in the requirements file
+protects you from bugs or incompatibilities in newly released versions:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+SomePackage == 1.2.3
+DependencyOfSomePackage == 4.5.6
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Using pip freeze to generate the requirements file will ensure that not
+only the top\-level dependencies are included but their sub\-dependencies as
+well, and so on. Perform the installation using \-\-no\-deps for an extra dose of insurance against installing
+anything not explicitly listed.
+.sp
+This strategy is easy to implement and works across OSes and architectures.
+However, it trusts PyPI and the certificate authority chain. It
+also relies on indices and find\-links locations not allowing
+packages to change without a version increase. (PyPI does protect
+against this.)
+.SS Hash\-checking Mode
+.sp
+Beyond pinning version numbers, you can add hashes against which to verify
+downloaded packages:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+FooProject == 1.2 \-\-hash=sha256:2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This protects against a compromise of PyPI or the HTTPS
+certificate chain. It also guards against a package changing
+without its version number changing (on indexes that allow this).
+This approach is a good fit for automated server deployments.
+.sp
+Hash\-checking mode is a labor\-saving alternative to running a private index
+server containing approved packages: it removes the need to upload packages,
+maintain ACLs, and keep an audit trail (which a VCS gives you on the
+requirements file for free). It can also substitute for a vendor library,
+providing easier upgrades and less VCS noise. It does not, of course,
+provide the availability benefits of a private index or a vendor library.
+.sp
+For more, see pip install\(aqs discussion of hash\-checking mode\&.
+.SS Installation Bundles
+.sp
+Using pip wheel, you can bundle up all of a project\(aqs dependencies, with
+any compilation done, into a single archive. This allows installation when
+index servers are unavailable and avoids time\-consuming recompilation. Create
+an archive like this:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ tempdir=$(mktemp \-d /tmp/wheelhouse\-XXXXX)
+$ pip wheel \-r requirements.txt \-\-wheel\-dir=$tempdir
+$ cwd=\(gapwd\(ga
+$ (cd "$tempdir"; tar \-cjvf "$cwd/bundled.tar.bz2" *)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+You can then install from the archive like this:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ tempdir=$(mktemp \-d /tmp/wheelhouse\-XXXXX)
+$ (cd $tempdir; tar \-xvf /path/to/bundled.tar.bz2)
+$ pip install \-\-force\-reinstall \-\-ignore\-installed \-\-upgrade \-\-no\-index \-\-no\-deps $tempdir/*
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Note that compiled packages are typically OS\- and architecture\-specific, so
+these archives are not necessarily portable across machines.
+.sp
+Hash\-checking mode can be used along with this method to ensure that future
+archives are built with identical packages.
+.sp
+\fBWARNING:\fP
+.INDENT 0.0
+.INDENT 3.5
+Finally, beware of the \fBsetup_requires\fP keyword arg in \fBsetup.py\fP\&.
+The (rare) packages that use it will cause those dependencies to be
+downloaded by setuptools directly, skipping pip\(aqs protections. If you need
+to use such a package, see Controlling
+setup_requires\&.
+.UNINDENT
+.UNINDENT
+.SH REFERENCE GUIDE
+.SS pip
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%pip\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Usage\fP
+.IP \(bu 2
+\fI\%Description\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Logging\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Console logging\fP
+.IP \(bu 2
+\fI\%File logging\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%\-\-exists\-action option\fP
+.IP \(bu 2
+\fI\%Build System Interface\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Setuptools Injection\fP
+.IP \(bu 2
+\fI\%Future Developments\fP
+.IP \(bu 2
+\fI\%Build Options\fP
+.UNINDENT
+.UNINDENT
+.IP \(bu 2
+\fI\%General Options\fP
+.UNINDENT
+.UNINDENT
+.SS Usage
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip <command> [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Description
+.SS Logging
+.SS Console logging
+.sp
+pip offers \fI\%\-v, \-\-verbose\fP and \fI\%\-q, \-\-quiet\fP
+to control the console log level.
+.SS File logging
+.sp
+pip offers the \fI\%\-\-log\fP option for specifying a file where a maximum
+verbosity log will be kept.  This option is empty by default. This log appends
+to previous logging.
+.sp
+Like all pip options, \fB\-\-log\fP can also be set as an environment variable, or
+placed into the pip config file.  See the Configuration section.
+.SS \-\-exists\-action option
+.sp
+This option specifies default behavior when path already exists.
+Possible cases: downloading files or checking out repositories for installation,
+creating archives. If \fB\-\-exists\-action\fP is not defined, pip will prompt
+when decision is needed.
+.INDENT 0.0
+.TP
+.B \fI(s)witch\fP
+Only relevant to VCS checkout. Attempt to switch the checkout
+to the appropriate url and/or revision.
+.TP
+.B \fI(i)gnore\fP
+Abort current operation (e.g. don\(aqt copy file, don\(aqt create archive,
+don\(aqt modify a checkout).
+.TP
+.B \fI(w)ipe\fP
+Delete the file or VCS checkout before trying to create, download, or checkout a new one.
+.TP
+.B \fI(b)ackup\fP
+Rename the file or checkout to \fB{name}{\(aq.bak\(aq * n}\fP, where n is some number
+of \fB\&.bak\fP extensions, such that the file didn\(aqt exist at some point.
+So the most recent backup will be the one with the largest number after \fB\&.bak\fP\&.
+.TP
+.B \fI(a)abort\fP
+Abort pip and return non\-zero exit status.
+.UNINDENT
+.SS Build System Interface
+.sp
+Pip builds packages by invoking the build system. Presently, the only supported
+build system is \fBsetuptools\fP, but future developments to the Python packaging
+infrastructure are expected to include support for other build systems.  As
+well as package building, the build system is also invoked to install packages
+direct from source.
+.sp
+The interface to the build system is via the \fBsetup.py\fP command line script \-
+all build actions are defined in terms of the specific \fBsetup.py\fP command
+line that will be run to invoke the required action.
+.SS Setuptools Injection
+.sp
+As noted above, the supported build system is \fBsetuptools\fP\&. However, not all
+packages use \fBsetuptools\fP in their build scripts. To support projects that
+use "pure \fBdistutils\fP", pip injects \fBsetuptools\fP into \fBsys.modules\fP
+before invoking \fBsetup.py\fP\&. The injection should be transparent to
+\fBdistutils\fP\-based projects, but 3rd party build tools wishing to provide a
+\fBsetup.py\fP emulating the commands pip requires may need to be aware that it
+takes place.
+.SS Future Developments
+.sp
+\fI\%PEP426\fP notes that the intention is to add hooks to project metadata in
+version 2.1 of the metadata spec, to explicitly define how to build a project
+from its source. Once this version of the metadata spec is final, pip will
+migrate to using that interface. At that point, the \fBsetup.py\fP interface
+documented here will be retained solely for legacy purposes, until projects
+have migrated.
+.sp
+Specifically, applications should \fInot\fP expect to rely on there being any form
+of backward compatibility guarantees around the \fBsetup.py\fP interface.
+.SS Build Options
+.sp
+The \fB\-\-global\-option\fP and \fB\-\-build\-option\fP arguments to the \fBpip install\fP
+and \fBpip wheel\fP inject additional arguments into the \fBsetup.py\fP command
+(\fB\-\-build\-option\fP is only available in \fBpip wheel\fP).  These arguments are
+included in the command as follows:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+python setup.py <global_options> BUILD COMMAND <build_options>
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+The options are passed unmodified, and presently offer direct access to the
+distutils command line. Use of \fB\-\-global\-option\fP and \fB\-\-build\-option\fP
+should be considered as build system dependent, and may not be supported in the
+current form if support for alternative build systems is added to pip.
+.SS General Options
+.sp
+.INDENT 0.0
+.TP
+.B \-h, \-\-help
+Show help.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-isolated
+Run pip in an isolated mode, ignoring environment variables and user configuration.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-v, \-\-verbose
+Give more output. Option is additive, and can be used up to 3 times.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-V, \-\-version
+Show version and exit.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-q, \-\-quiet
+Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-log <path>
+Path to a verbose appending log.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-proxy <proxy>
+Specify a proxy in the form [user:passwd@]proxy.server:port.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-retries <retries>
+Maximum number of retries each connection should attempt (default 5 times).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-timeout <sec>
+Set the socket timeout (default 15 seconds).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-exists\-action <action>
+Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-trusted\-host <hostname>
+Mark this host as trusted, even though it does not have valid or any HTTPS.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-cert <path>
+Path to alternate CA bundle.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-client\-cert <path>
+Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-cache\-dir <dir>
+Store the cache data in <dir>.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-cache\-dir
+Disable the cache.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-disable\-pip\-version\-check
+Don\(aqt periodically check PyPI to determine whether a new version of pip is available for download. Implied with \-\-no\-index.
+.UNINDENT
+
+.SS pip install
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%pip install\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Usage\fP
+.IP \(bu 2
+\fI\%Description\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Overview\fP
+.IP \(bu 2
+\fI\%Argument Handling\fP
+.IP \(bu 2
+\fI\%Working Out the Name and Version\fP
+.IP \(bu 2
+\fI\%Satisfying Requirements\fP
+.IP \(bu 2
+\fI\%Installation Order\fP
+.IP \(bu 2
+\fI\%Requirements File Format\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Example Requirements File\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%Requirement Specifiers\fP
+.IP \(bu 2
+\fI\%Per\-requirement Overrides\fP
+.IP \(bu 2
+\fI\%Pre\-release Versions\fP
+.IP \(bu 2
+\fI\%VCS Support\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Git\fP
+.IP \(bu 2
+\fI\%Mercurial\fP
+.IP \(bu 2
+\fI\%Subversion\fP
+.IP \(bu 2
+\fI\%Bazaar\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%Finding Packages\fP
+.IP \(bu 2
+\fI\%SSL Certificate Verification\fP
+.IP \(bu 2
+\fI\%Caching\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Wheel Cache\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%Hash\-Checking Mode\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Hashes from PyPI\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%"Editable" Installs\fP
+.IP \(bu 2
+\fI\%Controlling setup_requires\fP
+.IP \(bu 2
+\fI\%Build System Interface\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%Options\fP
+.IP \(bu 2
+\fI\%Examples\fP
+.UNINDENT
+.UNINDENT
+.SS Usage
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+
+pip install [options] <requirement specifier> [package\-index\-options] ...
+pip install [options] \-r <requirements file> [package\-index\-options] ...
+pip install [options] [\-e] <vcs project url> ...
+pip install [options] [\-e] <local project path> ...
+pip install [options] <archive url/path> ...
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Description
+.sp
+Install packages from:
+.INDENT 0.0
+.IP \(bu 2
+PyPI (and other indexes) using requirement specifiers.
+.IP \(bu 2
+VCS project urls.
+.IP \(bu 2
+Local project directories.
+.IP \(bu 2
+Local or remote source archives.
+.UNINDENT
+.sp
+pip also supports installing from "requirements files", which provide
+an easy way to specify a whole environment to be installed.
+
+.SS Overview
+.sp
+Pip install has several stages:
+.INDENT 0.0
+.IP 1. 3
+Identify the base requirements. The user supplied arguments are processed
+here.
+.IP 2. 3
+Resolve dependencies. What will be installed is determined here.
+.IP 3. 3
+Build wheels. All the dependencies that can be are built into wheels.
+.IP 4. 3
+Install the packages (and uninstall anything being upgraded/replaced).
+.UNINDENT
+.SS Argument Handling
+.sp
+When looking at the items to be installed, pip checks what type of item
+each is, in the following order:
+.INDENT 0.0
+.IP 1. 3
+Project or archive URL.
+.IP 2. 3
+Local directory (which must contain a \fBsetup.py\fP, or pip will report
+an error).
+.IP 3. 3
+Local file (a sdist or wheel format archive, following the naming
+conventions for those formats).
+.IP 4. 3
+A requirement, as specified in PEP 440.
+.UNINDENT
+.sp
+Each item identified is added to the set of requirements to be satisfied by
+the install.
+.SS Working Out the Name and Version
+.sp
+For each candidate item, pip needs to know the project name and version. For
+wheels (identified by the \fB\&.whl\fP file extension) this can be obtained from
+the filename, as per the Wheel spec. For local directories, or explicitly
+specified sdist files, the \fBsetup.py egg_info\fP command is used to determine
+the project metadata. For sdists located via an index, the filename is parsed
+for the name and project version (this is in theory slightly less reliable
+than using the \fBegg_info\fP command, but avoids downloading and processing
+unnecessary numbers of files).
+.sp
+Any URL may use the \fB#egg=name\fP syntax (see \fI\%VCS Support\fP) to
+explicitly state the project name.
+.SS Satisfying Requirements
+.sp
+Once pip has the set of requirements to satisfy, it chooses which version of
+each requirement to install using the simple rule that the latest version that
+satisfies the given constraints will be installed (but see \fI\%here\fP
+for an exception regarding pre\-release versions). Where more than one source of
+the chosen version is available, it is assumed that any source is acceptable
+(as otherwise the versions would differ).
+.SS Installation Order
+.sp
+As of v6.1.0, pip installs dependencies before their dependents, i.e. in
+"topological order".  This is the only commitment pip currently makes related
+to order.  While it may be coincidentally true that pip will install things in
+the order of the install arguments or in the order of the items in a
+requirements file, this is not a promise.
+.sp
+In the event of a dependency cycle (aka "circular dependency"), the current
+implementation (which might possibly change later) has it such that the first
+encountered member of the cycle is installed last.
+.sp
+For instance, if quux depends on foo which depends on bar which depends on baz,
+which depends on foo:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install quux
+\&...
+Installing collected packages baz, bar, foo, quux
+
+pip install bar
+\&...
+Installing collected packages foo, baz, bar
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Prior to v6.1.0, pip made no commitments about install order.
+.sp
+The decision to install topologically is based on the principle that
+installations should proceed in a way that leaves the environment usable at each
+step. This has two main practical benefits:
+.INDENT 0.0
+.IP 1. 3
+Concurrent use of the environment during the install is more likely to work.
+.IP 2. 3
+A failed install is less likely to leave a broken environment.  Although pip
+would like to support failure rollbacks eventually, in the mean time, this is
+an improvement.
+.UNINDENT
+.sp
+Although the new install order is not intended to replace (and does not replace)
+the use of \fBsetup_requires\fP to declare build dependencies, it may help certain
+projects install from sdist (that might previously fail) that fit the following
+profile:
+.INDENT 0.0
+.IP 1. 3
+They have build dependencies that are also declared as install dependencies
+using \fBinstall_requires\fP\&.
+.IP 2. 3
+\fBpython setup.py egg_info\fP works without their build dependencies being
+installed.
+.IP 3. 3
+For whatever reason, they don\(aqt or won\(aqt declare their build dependencies using
+\fBsetup_requires\fP\&.
+.UNINDENT
+.SS Requirements File Format
+.sp
+Each line of the requirements file indicates something to be installed,
+and like arguments to \fI\%pip install\fP, the following forms are supported:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[[\-\-option]...]
+<requirement specifier> [; markers] [[\-\-option]...]
+<archive url/path>
+[\-e] <local project path>
+[\-e] <vcs project url>
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+For details on requirement specifiers, see \fI\%Requirement Specifiers\fP\&.
+.sp
+See the \fI\%pip install Examples\fP for examples of all these forms.
+.sp
+A line that begins with \fB#\fP is treated as a comment and ignored. Whitespace
+followed by a \fB#\fP causes the \fB#\fP and the remainder of the line to be
+treated as a comment.
+.sp
+A line ending in an unescaped \fB\e\fP is treated as a line continuation
+and the newline following it is effectively ignored.
+.sp
+Comments are stripped \fIbefore\fP line continuations are processed.
+.sp
+The following options are supported:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.IP \(bu 2
+\-i, \-\-index\-url
+.IP \(bu 2
+\-\-extra\-index\-url
+.IP \(bu 2
+\-\-no\-index
+.IP \(bu 2
+\-f, \-\-find\-links
+.IP \(bu 2
+\fI\%\-\-no\-binary\fP
+.IP \(bu 2
+\fI\%\-\-only\-binary\fP
+.IP \(bu 2
+\fI\%\-\-require\-hashes\fP
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+For example, to specify \-\-no\-index and 2 \-\-find\-links locations:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+\-\-no\-index
+\-\-find\-links /my/local/archives
+\-\-find\-links http://some.archives.com/archives
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+If you wish, you can refer to other requirements files, like this:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+\-r more_requirements.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+You can also refer to constraints files, like this:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+\-c some_constraints.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Example Requirements File
+.sp
+Use \fBpip install \-r example\-requirements.txt\fP to install:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+#
+####### example\-requirements.txt #######
+#
+###### Requirements without Version Specifiers ######
+nose
+nose\-cov
+beautifulsoup4
+#
+###### Requirements with Version Specifiers ######
+#   See https://www.python.org/dev/peps/pep\-0440/#version\-specifiers
+docopt == 0.6.1             # Version Matching. Must be version 0.6.1
+keyring >= 4.1.1            # Minimum version 4.1.1
+coverage != 3.5             # Version Exclusion. Anything except version 3.5
+Mopidy\-Dirble ~= 1.1        # Compatible release. Same as >= 1.1, == 1.*
+#
+###### Refer to other requirements files ######
+\-r other\-requirements.txt
+#
+#
+###### A particular file ######
+\&./downloads/numpy\-1.9.2\-cp34\-none\-win32.whl
+http://wxpython.org/Phoenix/snapshot\-builds/wxPython_Phoenix\-3.0.3.dev1820+49a8884\-cp34\-none\-win_amd64.whl
+#
+###### Additional Requirements without Version Specifiers ######
+#   Same as 1st section, just here to show that you can put things in any order.
+rejected
+green
+#
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Requirement Specifiers
+.sp
+pip supports installing from a package index using a \fI\%requirement
+specifier\fP\&. Generally speaking, a requirement
+specifier is composed of a project name followed by optional \fI\%version
+specifiers\fP\&.  \fI\%PEP508\fP contains a full specification
+of the format of a requirement (\fBpip\fP does not support the \fBurl_req\fP form
+of specifier at this time).
+.sp
+Some examples:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+SomeProject
+SomeProject == 1.3
+SomeProject >=1.2,<.2.0
+SomeProject[foo, bar]
+SomeProject~=1.4.2
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+Since version 6.0, pip also supports specifiers containing \fI\%environment markers\fP like so:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+SomeProject ==5.4 ; python_version < \(aq2.7\(aq
+SomeProject; sys_platform == \(aqwin32\(aq
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+Environment markers are supported in the command line and in requirements files.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+Use quotes around specifiers in the shell when using \fB>\fP, \fB<\fP, or when
+using environment markers. Don\(aqt use quotes in requirement files. [1]
+.UNINDENT
+.UNINDENT
+.SS Per\-requirement Overrides
+.sp
+Since version 7.0 pip supports controlling the command line options given to
+\fBsetup.py\fP via requirements files. This disables the use of wheels (cached or
+otherwise) for that package, as \fBsetup.py\fP does not exist for wheels.
+.sp
+The \fB\-\-global\-option\fP and \fB\-\-install\-option\fP options are used to pass
+options to \fBsetup.py\fP\&. For example:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+FooProject >= 1.2 \-\-global\-option="\-\-no\-user\-cfg" \e
+                  \-\-install\-option="\-\-prefix=\(aq/usr/local\(aq" \e
+                  \-\-install\-option="\-\-no\-compile"
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+The above translates roughly into running FooProject\(aqs \fBsetup.py\fP
+script as:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+python setup.py \-\-no\-user\-cfg install \-\-prefix=\(aq/usr/local\(aq \-\-no\-compile
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+Note that the only way of giving more than one option to \fBsetup.py\fP
+is through multiple \fB\-\-global\-option\fP and \fB\-\-install\-option\fP
+options, as shown in the example above. The value of each option is
+passed as a single argument to the \fBsetup.py\fP script. Therefore, a
+line such as the following is invalid and would result in an
+installation error.
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+# Invalid. Please use \(aq\-\-install\-option\(aq twice as shown above.
+FooProject >= 1.2 \-\-install\-option="\-\-prefix=/usr/local \-\-no\-compile"
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Pre\-release Versions
+.sp
+Starting with v1.4, pip will only install stable versions as specified by
+\fI\%PEP426\fP by default. If a version cannot be parsed as a compliant \fI\%PEP426\fP
+version then it is assumed to be a pre\-release.
+.sp
+If a Requirement specifier includes a pre\-release or development version
+(e.g. \fB>=0.0.dev0\fP) then pip will allow pre\-release and development versions
+for that requirement. This does not include the != flag.
+.sp
+The \fBpip install\fP command also supports a \fI\%\-\-pre\fP flag
+that will enable installing pre\-releases and development releases.
+.SS VCS Support
+.sp
+pip supports installing from Git, Mercurial, Subversion and Bazaar, and detects
+the type of VCS using url prefixes: "git+", "hg+", "bzr+", "svn+".
+.sp
+pip requires a working VCS command on your path: git, hg, svn, or bzr.
+.sp
+VCS projects can be installed in \fI\%editable mode\fP (using
+the \fI\%\-\-editable\fP option) or not.
+.INDENT 0.0
+.IP \(bu 2
+For editable installs, the clone location by default is "<venv
+path>/src/SomeProject" in virtual environments, and "<cwd>/src/SomeProject"
+for global installs.  The \fI\%\-\-src\fP option can be used to
+modify this location.
+.IP \(bu 2
+For non\-editable installs, the project is built locally in a temp dir and then
+installed normally. Note that if a satisfactory version of the package is
+already installed, the VCS source will not overwrite it without an \fI\-\-upgrade\fP
+flag. VCS requirements pin the package version (specified in the \fIsetup.py\fP
+file) of the target commit, not necessarily the commit itself.
+.UNINDENT
+.sp
+The "project name" component of the url suffix "egg=<project name>\-<version>"
+is used by pip in its dependency logic to identify the project prior
+to pip downloading and analyzing the metadata.  The optional "version"
+component of the egg name is not functionally important.  It merely
+provides a human\-readable clue as to what version is in use. For projects
+where setup.py is not in the root of project, "subdirectory" component
+is used. Value of "subdirectory" component should be a path starting from root
+of the project to where setup.py is located.
+.sp
+So if your repository layout is:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.IP \(bu 2
+pkg_dir/
+.INDENT 2.0
+.IP \(bu 2
+setup.py  # setup.py for package \fBpkg\fP
+.IP \(bu 2
+some_module.py
+.UNINDENT
+.IP \(bu 2
+other_dir/
+.INDENT 2.0
+.IP \(bu 2
+some_file
+.UNINDENT
+.IP \(bu 2
+some_other_file
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+You\(aqll need to use \fBpip install \-e vcs+protocol://repo_url/#egg=pkg&subdirectory=pkg_dir\fP\&.
+.SS Git
+.sp
+pip currently supports cloning over \fBgit\fP, \fBgit+http\fP, \fBgit+https\fP,
+\fBgit+ssh\fP, \fBgit+git\fP and \fBgit+file\fP:
+.sp
+Here are the supported forms:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[\-e] git://git.myproject.org/MyProject#egg=MyProject
+[\-e] git+http://git.myproject.org/MyProject#egg=MyProject
+[\-e] git+https://git.myproject.org/MyProject#egg=MyProject
+[\-e] git+ssh://git.myproject.org/MyProject#egg=MyProject
+[\-e] git+git://git.myproject.org/MyProject#egg=MyProject
+[\-e] git+file://git.myproject.org/MyProject#egg=MyProject
+\-e git+git@git.myproject.org:MyProject#egg=MyProject
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Passing branch names, a commit hash or a tag name is possible like so:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[\-e] git://git.myproject.org/MyProject.git@master#egg=MyProject
+[\-e] git://git.myproject.org/MyProject.git@v1.0#egg=MyProject
+[\-e] git://git.myproject.org/MyProject.git@da39a3ee5e6b4b0d3255bfef95601890afd80709#egg=MyProject
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Mercurial
+.sp
+The supported schemes are: \fBhg+http\fP, \fBhg+https\fP,
+\fBhg+static\-http\fP and \fBhg+ssh\fP\&.
+.sp
+Here are the supported forms:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[\-e] hg+http://hg.myproject.org/MyProject#egg=MyProject
+[\-e] hg+https://hg.myproject.org/MyProject#egg=MyProject
+[\-e] hg+ssh://hg.myproject.org/MyProject#egg=MyProject
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+You can also specify a revision number, a revision hash, a tag name or a local
+branch name like so:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[\-e] hg+http://hg.myproject.org/MyProject@da39a3ee5e6b#egg=MyProject
+[\-e] hg+http://hg.myproject.org/MyProject@2019#egg=MyProject
+[\-e] hg+http://hg.myproject.org/MyProject@v1.0#egg=MyProject
+[\-e] hg+http://hg.myproject.org/MyProject@special_feature#egg=MyProject
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Subversion
+.sp
+pip supports the URL schemes \fBsvn\fP, \fBsvn+svn\fP, \fBsvn+http\fP, \fBsvn+https\fP, \fBsvn+ssh\fP\&.
+.sp
+You can also give specific revisions to an SVN URL, like so:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[\-e] svn+svn://svn.myproject.org/svn/MyProject#egg=MyProject
+[\-e] svn+http://svn.myproject.org/svn/MyProject/trunk@2019#egg=MyProject
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+which will check out revision 2019.  \fB@{20080101}\fP would also check
+out the revision from 2008\-01\-01. You can only check out specific
+revisions using \fB\-e svn+...\fP\&.
+.SS Bazaar
+.sp
+pip supports Bazaar using the \fBbzr+http\fP, \fBbzr+https\fP, \fBbzr+ssh\fP,
+\fBbzr+sftp\fP, \fBbzr+ftp\fP and \fBbzr+lp\fP schemes.
+.sp
+Here are the supported forms:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[\-e] bzr+http://bzr.myproject.org/MyProject/trunk#egg=MyProject
+[\-e] bzr+sftp://user@myproject.org/MyProject/trunk#egg=MyProject
+[\-e] bzr+ssh://user@myproject.org/MyProject/trunk#egg=MyProject
+[\-e] bzr+ftp://user@myproject.org/MyProject/trunk#egg=MyProject
+[\-e] bzr+lp:MyProject#egg=MyProject
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Tags or revisions can be installed like so:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[\-e] bzr+https://bzr.myproject.org/MyProject/trunk@2019#egg=MyProject
+[\-e] bzr+http://bzr.myproject.org/MyProject/trunk@v1.0#egg=MyProject
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Finding Packages
+.sp
+pip searches for packages on \fI\%PyPI\fP using the
+\fI\%http simple interface\fP,
+which is documented \fI\%here\fP
+and \fI\%there\fP
+.sp
+pip offers a number of Package Index Options for modifying how packages are found.
+.sp
+pip looks for packages in a number of places, on PyPI (if not disabled via
+\fB\(ga\-\-no\-index\(ga\fP), in the local filesystem, and in any additional repositories
+specified via \fB\(ga\-\-find\-links\(ga\fP or \fB\(ga\-\-index\-url\(ga\fP\&. There is no ordering in
+the locations that are searched, rather they are all checked, and the "best"
+match for the requirements (in terms of version number \- see \fI\%PEP440\fP for
+details) is selected.
+.sp
+See the \fI\%pip install Examples\fP\&.
+.SS SSL Certificate Verification
+.sp
+Starting with v1.3, pip provides SSL certificate verification over https, to
+prevent man\-in\-the\-middle attacks against PyPI downloads.
+.SS Caching
+.sp
+Starting with v6.0, pip provides an on\-by\-default cache which functions
+similarly to that of a web browser. While the cache is on by default and is
+designed do the right thing by default you can disable the cache and always
+access PyPI by utilizing the \fB\-\-no\-cache\-dir\fP option.
+.sp
+When making any HTTP request pip will first check its local cache to determine
+if it has a suitable response stored for that request which has not expired. If
+it does then it simply returns that response and doesn\(aqt make the request.
+.sp
+If it has a response stored, but it has expired, then it will attempt to make a
+conditional request to refresh the cache which will either return an empty
+response telling pip to simply use the cached item (and refresh the expiration
+timer) or it will return a whole new response which pip can then store in the
+cache.
+.sp
+When storing items in the cache, pip will respect the \fBCacheControl\fP header
+if it exists, or it will fall back to the \fBExpires\fP header if that exists.
+This allows pip to function as a browser would, and allows the index server
+to communicate to pip how long it is reasonable to cache any particular item.
+.sp
+While this cache attempts to minimize network activity, it does not prevent
+network access altogether. If you want a local install solution that
+circumvents accessing PyPI, see Installing from local packages\&.
+.sp
+The default location for the cache directory depends on the Operating System:
+.INDENT 0.0
+.TP
+.B Unix
+\fB~/.cache/pip\fP and it respects the \fBXDG_CACHE_HOME\fP directory.
+.TP
+.B macOS
+\fB~/Library/Caches/pip\fP\&.
+.TP
+.B Windows
+\fB<CSIDL_LOCAL_APPDATA>\epip\eCache\fP
+.UNINDENT
+.SS Wheel Cache
+.sp
+Pip will read from the subdirectory \fBwheels\fP within the pip cache directory
+and use any packages found there. This is disabled via the same
+\fB\-\-no\-cache\-dir\fP option that disables the HTTP cache. The internal structure
+of that is not part of the pip API. As of 7.0, pip makes a subdirectory for
+each sdist that wheels are built from and places the resulting wheels inside.
+.sp
+Pip attempts to choose the best wheels from those built in preference to
+building a new wheel. Note that this means when a package has both optional
+C extensions and builds \fIpy\fP tagged wheels when the C extension can\(aqt be built
+that pip will not attempt to build a better wheel for Pythons that would have
+supported it, once any generic wheel is built. To correct this, make sure that
+the wheels are built with Python specific tags \- e.g. pp on Pypy.
+.sp
+When no wheels are found for an sdist, pip will attempt to build a wheel
+automatically and insert it into the wheel cache.
+.SS Hash\-Checking Mode
+.sp
+Since version 8.0, pip can check downloaded package archives against local
+hashes to protect against remote tampering. To verify a package against one or
+more hashes, add them to the end of the line:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+FooProject == 1.2 \-\-hash=sha256:2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824 \e
+                  \-\-hash=sha256:486ea46224d1bb4fb680f34f7c9ad96a8f24ec88be73ea8e5a6c65260e9cb8a7
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+(The ability to use multiple hashes is important when a package has both
+binary and source distributions or when it offers binary distributions for a
+variety of platforms.)
+.sp
+The recommended hash algorithm at the moment is sha256, but stronger ones are
+allowed, including all those supported by \fBhashlib\fP\&. However, weaker ones
+such as md5, sha1, and sha224 are excluded to avoid giving a false sense of
+security.
+.sp
+Hash verification is an all\-or\-nothing proposition. Specifying a \fB\-\-hash\fP
+against any requirement not only checks that hash but also activates a global
+\fIhash\-checking mode\fP, which imposes several other security restrictions:
+.INDENT 0.0
+.IP \(bu 2
+Hashes are required for all requirements. This is because a partially\-hashed
+requirements file is of little use and thus likely an error: a malicious
+actor could slip bad code into the installation via one of the unhashed
+requirements. Note that hashes embedded in URL\-style requirements via the
+\fB#md5=...\fP syntax suffice to satisfy this rule (regardless of hash
+strength, for legacy reasons), though you should use a stronger
+hash like sha256 whenever possible.
+.IP \(bu 2
+Hashes are required for all dependencies. An error results if there is a
+dependency that is not spelled out and hashed in the requirements file.
+.IP \(bu 2
+Requirements that take the form of project names (rather than URLs or local
+filesystem paths) must be pinned to a specific version using \fB==\fP\&. This
+prevents a surprising hash mismatch upon the release of a new version
+that matches the requirement specifier.
+.IP \(bu 2
+\fB\-\-egg\fP is disallowed, because it delegates installation of dependencies
+to setuptools, giving up pip\(aqs ability to enforce any of the above.
+.UNINDENT
+.sp
+Hash\-checking mode can be forced on with the \fB\-\-require\-hashes\fP command\-line
+option:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-require\-hashes \-r requirements.txt
+    ...
+    Hashes are required in \-\-require\-hashes mode (implicitly on when a hash is
+    specified for any package). These requirements were missing hashes,
+    leaving them open to tampering. These are the hashes the downloaded
+    archives actually had. You can add lines like these to your requirements
+    files to prevent tampering.
+        pyelasticsearch==1.0 \-\-hash=sha256:44ddfb1225054d7d6b1d02e9338e7d4809be94edbe9929a2ec0807d38df993fa
+        more\-itertools==2.2 \-\-hash=sha256:93e62e05c7ad3da1a233def6731e8285156701e3419a5fe279017c429ec67ce0
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This can be useful in deploy scripts, to ensure that the author of the
+requirements file provided hashes. It is also a convenient way to bootstrap
+your list of hashes, since it shows the hashes of the packages it fetched. It
+fetches only the preferred archive for each package, so you may still need to
+add hashes for alternatives archives using pip hash: for instance if
+there is both a binary and a source distribution.
+.sp
+The \fI\%wheel cache\fP is disabled in hash\-checking mode to
+prevent spurious hash mismatch errors. These would otherwise occur while
+installing sdists that had already been automatically built into cached wheels:
+those wheels would be selected for installation, but their hashes would not
+match the sdist ones from the requirements file. A further complication is that
+locally built wheels are nondeterministic: contemporary modification times make
+their way into the archive, making hashes unpredictable across machines and
+cache flushes. Compilation of C code adds further nondeterminism, as many
+compilers include random\-seeded values in their output. However, wheels fetched
+from index servers are the same every time. They land in pip\(aqs HTTP cache, not
+its wheel cache, and are used normally in hash\-checking mode. The only downside
+of having the wheel cache disabled is thus extra build time for sdists, and
+this can be solved by making sure pre\-built wheels are available from the index
+server.
+.sp
+Hash\-checking mode also works with pip download and pip wheel\&. A
+comparison of hash\-checking mode with other repeatability strategies is available in the User Guide.
+.sp
+\fBWARNING:\fP
+.INDENT 0.0
+.INDENT 3.5
+Beware of the \fBsetup_requires\fP keyword arg in \fBsetup.py\fP\&. The
+(rare) packages that use it will cause those dependencies to be downloaded
+by setuptools directly, skipping pip\(aqs hash\-checking. If you need to use
+such a package, see \fI\%Controlling
+setup_requires\fP\&.
+.UNINDENT
+.UNINDENT
+.sp
+\fBWARNING:\fP
+.INDENT 0.0
+.INDENT 3.5
+Be careful not to nullify all your security work when you install your
+actual project by using setuptools directly: for example, by calling
+\fBpython setup.py install\fP, \fBpython setup.py develop\fP, or
+\fBeasy_install\fP\&. Setuptools will happily go out and download, unchecked,
+anything you missed in your requirements file—and it’s easy to miss things
+as your project evolves. To be safe, install your project using pip and
+\fI\%\-\-no\-deps\fP\&.
+.sp
+Instead of \fBpython setup.py develop\fP, use...
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install \-\-no\-deps \-e .
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Instead of \fBpython setup.py install\fP, use...
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install \-\-no\-deps .
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS Hashes from PyPI
+.sp
+PyPI provides an MD5 hash in the fragment portion of each package download URL,
+like \fB#md5=123...\fP, which pip checks as a protection against download
+corruption. Other hash algorithms that have guaranteed support from \fBhashlib\fP
+are also supported here: sha1, sha224, sha384, sha256, and sha512. Since this
+hash originates remotely, it is not a useful guard against tampering and thus
+does not satisfy the \fB\-\-require\-hashes\fP demand that every package have a
+local hash.
+.SS "Editable" Installs
+.sp
+"Editable" installs are fundamentally \fI\%"setuptools develop mode"\fP
+installs.
+.sp
+You can install local projects or VCS projects in "editable" mode:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-e path/to/SomeProject
+$ pip install \-e git+http://repo/my_project.git#egg=SomeProject
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+(See the \fI\%VCS Support\fP section above for more information on VCS\-related syntax.)
+.sp
+For local projects, the "SomeProject.egg\-info" directory is created relative to
+the project path.  This is one advantage over just using \fBsetup.py develop\fP,
+which creates the "egg\-info" directly relative the current working directory.
+.SS Controlling setup_requires
+.sp
+Setuptools offers the \fBsetup_requires\fP \fI\%setup() keyword\fP
+for specifying dependencies that need to be present in order for the \fIsetup.py\fP
+script to run.  Internally, Setuptools uses \fBeasy_install\fP to fulfill these
+dependencies.
+.sp
+pip has no way to control how these dependencies are located.  None of the
+Package Index Options have an effect.
+.sp
+The solution is to configure a "system" or "personal" \fI\%Distutils configuration
+file\fP to
+manage the fulfillment.
+.sp
+For example, to have the dependency located at an alternate index, add this:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[easy_install]
+index_url = https://my.index\-mirror.com
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+To have the dependency located from a local directory and not crawl PyPI, add this:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+[easy_install]
+allow_hosts = \(aq\(aq
+find_links = file:///path/to/local/archives/
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Build System Interface
+.sp
+In order for pip to install a package from source, \fBsetup.py\fP must implement
+the following commands:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+setup.py egg_info [\-\-egg\-base XXX]
+setup.py install \-\-record XXX [\-\-single\-version\-externally\-managed] [\-\-root XXX] [\-\-compile|\-\-no\-compile] [\-\-install\-headers XXX]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+The \fBegg_info\fP command should create egg metadata for the package, as
+described in the setuptools documentation at
+\fI\%https://setuptools.readthedocs.io/en/latest/setuptools.html#egg\-info\-create\-egg\-metadata\-and\-set\-build\-tags\fP
+.sp
+The \fBinstall\fP command should implement the complete process of installing the
+package to the target directory XXX.
+.sp
+To install a package in "editable" mode (\fBpip install \-e\fP), \fBsetup.py\fP must
+implement the following command:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+setup.py develop \-\-no\-deps
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This should implement the complete process of installing the package in
+"editable" mode.
+.sp
+All packages will be attempted to built into wheels:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+setup.py bdist_wheel \-d XXX
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+One further \fBsetup.py\fP command is invoked by \fBpip install\fP:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+setup.py clean
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This command is invoked to clean up temporary commands from the build. (TODO:
+Investigate in more detail when this command is required).
+.sp
+No other build system commands are invoked by the \fBpip install\fP command.
+.sp
+Installing a package from a wheel does not invoke the build system at all.
+.SS Options
+.sp
+.INDENT 0.0
+.TP
+.B \-c, \-\-constraint <file>
+Constrain versions using the given constraints file. This option can be used multiple times.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-e, \-\-editable <path/url>
+Install a project in editable mode (i.e. setuptools "develop mode") from a local project path or a VCS url.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-r, \-\-requirement <file>
+Install from the given requirements file. This option can be used multiple times.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-b, \-\-build <dir>
+Directory to unpack packages into and build in.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-t, \-\-target <dir>
+Install packages into <dir>. By default this will not replace existing files/folders in <dir>. Use \-\-upgrade to replace existing packages in <dir> with new versions.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-d, \-\-download <dir>
+Download packages into <dir> instead of installing them, regardless of what\(aqs already installed.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-src <dir>
+Directory to check out editable projects into. The default in a virtualenv is "<venv path>/src". The default for global installs is "<current dir>/src".
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-U, \-\-upgrade
+Upgrade all specified packages to the newest available version. The handling of dependencies depends on the upgrade\-strategy used.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-upgrade\-strategy <upgrade_strategy>
+Determines how dependency upgrading should be handled. "eager" \- dependencies are upgraded regardless of whether the currently installed version satisfies the requirements of the upgraded package(s). "only\-if\-needed" \-  are upgraded only when they do not satisfy the requirements of the upgraded package(s).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-force\-reinstall
+When upgrading, reinstall all packages even if they are already up\-to\-date.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-I, \-\-ignore\-installed
+Ignore the installed packages (reinstalling instead).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ignore\-requires\-python
+Ignore the Requires\-Python information.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-deps
+Don\(aqt install package dependencies.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-install\-option <options>
+Extra arguments to be supplied to the setup.py install command (use like \-\-install\-option="\-\-install\-scripts=<sys.prefix>/local/bin"). Use multiple \-\-install\-option options to pass multiple options to setup.py install. If you are using an option with a directory path, be sure to use absolute path.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-global\-option <options>
+Extra global options to be supplied to the setup.py call before the install command.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-user
+Install to the Python user install directory for your platform. Typically ~/.local/, or %APPDATA%Python on Windows. (See the Python documentation for site.USER_BASE for full details.)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-egg
+Install packages as eggs, not \(aqflat\(aq, like pip normally does. This option is not about installing \fIfrom\fP eggs. (WARNING: Because this option overrides pip\(aqs normal install logic, requirements files may not behave as expected.)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-root <dir>
+Install everything relative to this alternate root directory.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-prefix <dir>
+Installation prefix where lib, bin and other top\-level folders are placed
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-compile
+Compile py files to pyc
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-compile
+Do not compile py files to pyc
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-use\-wheel
+Do not Find and prefer wheel archives when searching indexes and find\-links locations. DEPRECATED in favour of \-\-no\-binary.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-binary <format_control>
+Do not use binary packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either :all: to disable all binary packages, :none: to empty the set, or one or more package names with commas between them. Note that some packages are tricky to compile and may fail to install when this option is used on them.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-only\-binary <format_control>
+Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either :all: to disable all source packages, :none: to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-pre
+Include pre\-release and development versions. By default, pip only finds stable versions.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-clean
+Don\(aqt clean up build directories.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-require\-hashes
+Require a hash to check each requirement against, for repeatable installs. This option is implied when any package in a requirements file has a \-\-hash option.
+.UNINDENT
+
+.sp
+.INDENT 0.0
+.TP
+.B \-i, \-\-index\-url <url>
+Base URL of Python Package Index (default \fI\%https://pypi.python.org/simple\fP). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-extra\-index\-url <url>
+Extra URLs of package indexes to use in addition to \-\-index\-url. Should follow the same rules as \-\-index\-url.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-index
+Ignore package index (only looking at \-\-find\-links URLs instead).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-f, \-\-find\-links <url>
+If a url or path to an html file, then parse for links to archives. If a local path or \fI\%file://\fP url that\(aqs a directory, then look for archives in the directory listing.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-process\-dependency\-links
+Enable the processing of dependency links.
+.UNINDENT
+
+.SS Examples
+.INDENT 0.0
+.IP 1. 3
+Install \fISomePackage\fP and its dependencies from \fI\%PyPI\fP using \fI\%Requirement Specifiers\fP
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install SomePackage            # latest version
+$ pip install SomePackage==1.0.4     # specific version
+$ pip install \(aqSomePackage>=1.0.4\(aq     # minimum version
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 2. 3
+Install a list of requirements specified in a file.  See the Requirements files\&.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-r requirements.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 3. 3
+Upgrade an already installed \fISomePackage\fP to the latest from PyPI.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-upgrade SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 4. 3
+Install a local project in "editable" mode. See the section on \fI\%Editable Installs\fP\&.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-e .                     # project in current directory
+$ pip install \-e path/to/project       # project in another directory
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 5. 3
+Install a project from VCS in "editable" mode. See the sections on \fI\%VCS Support\fP and \fI\%Editable Installs\fP\&.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-e git+https://git.repo/some_pkg.git#egg=SomePackage          # from git
+$ pip install \-e hg+https://hg.repo/some_pkg.git#egg=SomePackage            # from mercurial
+$ pip install \-e svn+svn://svn.repo/some_pkg/trunk/#egg=SomePackage         # from svn
+$ pip install \-e git+https://git.repo/some_pkg.git@feature#egg=SomePackage  # from \(aqfeature\(aq branch
+$ pip install \-e "git+https://git.repo/some_repo.git#egg=subdir&subdirectory=subdir_path" # install a python package from a repo subdirectory
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 6. 3
+Install a package with \fI\%setuptools extras\fP\&.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install SomePackage[PDF]
+$ pip install git+https://git.repo/some_pkg.git#egg=SomePackage[PDF]
+$ pip install SomePackage[PDF]==3.0
+$ pip install \-e .[PDF]==3.0  # editable project in current directory
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 7. 3
+Install a particular source archive file.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install ./downloads/SomePackage\-1.0.4.tar.gz
+$ pip install http://my.package.repo/SomePackage\-1.0.4.zip
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 8. 3
+Install from alternative package repositories.
+.sp
+Install from a different index, and not \fI\%PyPI\fP
+.INDENT 3.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-index\-url http://my.package.repo/simple/ SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Search an additional index during install, in addition to \fI\%PyPI\fP
+.INDENT 3.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-extra\-index\-url http://my.package.repo/simple SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Install from a local flat directory containing archives (and don\(aqt scan indexes):
+.INDENT 3.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-no\-index \-\-find\-links=file:///local/dir/ SomePackage
+$ pip install \-\-no\-index \-\-find\-links=/local/dir/ SomePackage
+$ pip install \-\-no\-index \-\-find\-links=relative/dir/ SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.IP 9. 3
+Find pre\-release and development versions, in addition to stable versions.  By default, pip only finds stable versions.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip install \-\-pre SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+
+.sp
+.ce
+----
+
+.ce 0
+.sp
+.IP [1] 5
+This is true with the exception that pip v7.0 and v7.0.1 required quotes
+around specifiers containing environment markers in requirement files.
+.SS pip download
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%pip download\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Usage\fP
+.IP \(bu 2
+\fI\%Description\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Overview\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%Options\fP
+.IP \(bu 2
+\fI\%Examples\fP
+.UNINDENT
+.UNINDENT
+.SS Usage
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+
+pip download [options] <requirement specifier> [package\-index\-options] ...
+pip download [options] \-r <requirements file> [package\-index\-options] ...
+pip download [options] [\-e] <vcs project url> ...
+pip download [options] [\-e] <local project path> ...
+pip download [options] <archive url/path> ...
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Description
+.sp
+Download packages from:
+.INDENT 0.0
+.IP \(bu 2
+PyPI (and other indexes) using requirement specifiers.
+.IP \(bu 2
+VCS project urls.
+.IP \(bu 2
+Local project directories.
+.IP \(bu 2
+Local or remote source archives.
+.UNINDENT
+.sp
+pip also supports downloading from "requirements files", which provide
+an easy way to specify a whole environment to be downloaded.
+
+.SS Overview
+.sp
+\fBpip download\fP replaces the \fB\-\-download\fP option to \fBpip install\fP,
+which is now deprecated and will be removed in pip 10.
+.sp
+\fBpip download\fP does the same resolution and downloading as \fBpip install\fP,
+but instead of installing the dependencies, it collects the downloaded
+distributions into the directory provided (defaulting to the current
+directory). This directory can later be passed as the value to \fBpip install
+\-\-find\-links\fP to facilitate offline or locked down package installation.
+.sp
+\fBpip download\fP with the \fB\-\-platform\fP, \fB\-\-python\-version\fP,
+\fB\-\-implementation\fP, and \fB\-\-abi\fP options provides the ability to fetch
+dependencies for an interpreter and system other than the ones that pip is
+running on. \fB\-\-only\-binary=:all:\fP is required when using any of these
+options. It is important to note that these options all default to the
+current system/interpreter, and not to the most restrictive constraints (e.g.
+platform any, abi none, etc). To avoid fetching dependencies that happen to
+match the constraint of the current interpreter (but not your target one), it
+is recommended to specify all of these options if you are specifying one of
+them. Generic dependencies (e.g. universal wheels, or dependencies with no
+platform, abi, or implementation constraints) will still match an over\-
+constrained download requirement.
+.SS Options
+.sp
+.INDENT 0.0
+.TP
+.B \-c, \-\-constraint <file>
+Constrain versions using the given constraints file. This option can be used multiple times.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-e, \-\-editable <path/url>
+Install a project in editable mode (i.e. setuptools "develop mode") from a local project path or a VCS url.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-r, \-\-requirement <file>
+Install from the given requirements file. This option can be used multiple times.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-b, \-\-build <dir>
+Directory to unpack packages into and build in.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-deps
+Don\(aqt install package dependencies.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-global\-option <options>
+Extra global options to be supplied to the setup.py call before the install command.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-binary <format_control>
+Do not use binary packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either :all: to disable all binary packages, :none: to empty the set, or one or more package names with commas between them. Note that some packages are tricky to compile and may fail to install when this option is used on them.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-only\-binary <format_control>
+Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either :all: to disable all source packages, :none: to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-src <dir>
+Directory to check out editable projects into. The default in a virtualenv is "<venv path>/src". The default for global installs is "<current dir>/src".
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-pre
+Include pre\-release and development versions. By default, pip only finds stable versions.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-clean
+Don\(aqt clean up build directories.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-require\-hashes
+Require a hash to check each requirement against, for repeatable installs. This option is implied when any package in a requirements file has a \-\-hash option.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-d, \-\-dest <dir>
+Download packages into <dir>.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-platform <platform>
+Only download wheels compatible with <platform>. Defaults to the platform of the running system.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-python\-version <python_version>
+Only download wheels compatible with Python interpreter version <version>. If not specified, then the current system interpreter minor version is used. A major version (e.g. \(aq2\(aq) can be specified to match all minor revs of that major version.  A minor version (e.g. \(aq34\(aq) can also be specified.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-implementation <implementation>
+Only download wheels compatible with Python implementation <implementation>, e.g. \(aqpp\(aq, \(aqjy\(aq, \(aqcp\(aq,  or \(aqip\(aq. If not specified, then the current interpreter implementation is used.  Use \(aqpy\(aq to force implementation\-agnostic wheels.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-abi <abi>
+Only download wheels compatible with Python abi <abi>, e.g. \(aqpypy_41\(aq.  If not specified, then the current interpreter abi tag is used.  Generally you will need to specify \-\-implementation, \-\-platform, and \-\-python\-version when using this option.
+.UNINDENT
+
+.sp
+.INDENT 0.0
+.TP
+.B \-i, \-\-index\-url <url>
+Base URL of Python Package Index (default \fI\%https://pypi.python.org/simple\fP). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-extra\-index\-url <url>
+Extra URLs of package indexes to use in addition to \-\-index\-url. Should follow the same rules as \-\-index\-url.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-index
+Ignore package index (only looking at \-\-find\-links URLs instead).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-f, \-\-find\-links <url>
+If a url or path to an html file, then parse for links to archives. If a local path or \fI\%file://\fP url that\(aqs a directory, then look for archives in the directory listing.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-process\-dependency\-links
+Enable the processing of dependency links.
+.UNINDENT
+
+.SS Examples
+.INDENT 0.0
+.IP 1. 3
+Download a package and all of its dependencies
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip download SomePackage
+$ pip download \-d . SomePackage  # equivalent to above
+$ pip download \-\-no\-index \-\-find\-links=/tmp/wheelhouse \-d /tmp/otherwheelhouse SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 2. 3
+.INDENT 3.0
+.TP
+.B Download a package and all of its dependencies with OSX specific interpreter constraints.
+This forces OSX 10.10 or lower compatibility. Since OSX deps are forward compatible,
+this will also match \fBmacosx\-10_9_x86_64\fP, \fBmacosx\-10_8_x86_64\fP, \fBmacosx\-10_8_intel\fP,
+etc.
+It will also match deps with platform \fBany\fP\&. Also force the interpreter version to \fB27\fP
+(or more generic, i.e. \fB2\fP) and implementation to \fBcp\fP (or more generic, i.e. \fBpy\fP).
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip download \e
+    \-\-only\-binary=:all: \e
+    \-\-platform macosx\-10_10_x86_64 \e
+    \-\-python\-version 27 \e
+    \-\-implementation cp \e
+    SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 3. 3
+.INDENT 3.0
+.TP
+.B Download a package and its dependencies with linux specific constraints.
+Force the interpreter to be any minor version of py3k, and only accept
+\fBcp34m\fP or \fBnone\fP as the abi.
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip download \e
+    \-\-only\-binary=:all: \e
+    \-\-platform linux_x86_64 \e
+    \-\-python\-version 3 \e
+    \-\-implementation cp \e
+    \-\-abi cp34m \e
+    SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 4. 3
+Force platform, implementation, and abi agnostic deps.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip download \e
+    \-\-only\-binary=:all: \e
+    \-\-platform any \e
+    \-\-python\-version 3 \e
+    \-\-implementation py \e
+    \-\-abi none \e
+    SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 5. 3
+Even when overconstrained, this will still correctly fetch the pip universal wheel.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip download \e
+    \-\-only\-binary=:all: \e
+    \-\-platform linux_x86_64 \e
+    \-\-python\-version 33 \e
+    \-\-implementation cp \e
+    \-\-abi cp34m \e
+    pip>=8
+$ ls pip\-8.1.1\-py2.py3\-none\-any.whl
+pip\-8.1.1\-py2.py3\-none\-any.whl
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS pip uninstall
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%pip uninstall\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Usage\fP
+.IP \(bu 2
+\fI\%Description\fP
+.IP \(bu 2
+\fI\%Options\fP
+.IP \(bu 2
+\fI\%Examples\fP
+.UNINDENT
+.UNINDENT
+.SS Usage
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+
+pip uninstall [options] <package> ...
+pip uninstall [options] \-r <requirements file> ...
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Description
+.sp
+Uninstall packages.
+.sp
+pip is able to uninstall most installed packages. Known exceptions are:
+.INDENT 0.0
+.IP \(bu 2
+Pure distutils packages installed with \fBpython setup.py install\fP, which
+leave behind no metadata to determine what files were installed.
+.IP \(bu 2
+Script wrappers installed by \fBpython setup.py develop\fP\&.
+.UNINDENT
+
+.SS Options
+.sp
+.INDENT 0.0
+.TP
+.B \-r, \-\-requirement <file>
+Uninstall all the packages listed in the given requirements file.  This option can be used multiple times.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-y, \-\-yes
+Don\(aqt ask for confirmation of uninstall deletions.
+.UNINDENT
+
+.SS Examples
+.INDENT 0.0
+.IP 1. 3
+Uninstall a package.
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip uninstall simplejson
+Uninstalling simplejson:
+  /home/me/env/lib/python2.7/site\-packages/simplejson
+  /home/me/env/lib/python2.7/site\-packages/simplejson\-2.2.1\-py2.7.egg\-info
+Proceed (y/n)? y
+  Successfully uninstalled simplejson
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS pip freeze
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%pip freeze\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Usage\fP
+.IP \(bu 2
+\fI\%Description\fP
+.IP \(bu 2
+\fI\%Options\fP
+.IP \(bu 2
+\fI\%Examples\fP
+.UNINDENT
+.UNINDENT
+.SS Usage
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+
+pip freeze [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Description
+.sp
+Output installed packages in requirements format.
+.sp
+packages are listed in a case\-insensitive sorted order.
+
+.SS Options
+.sp
+.INDENT 0.0
+.TP
+.B \-r, \-\-requirement <file>
+Use the order in the given requirements file and its comments when generating output. This option can be used multiple times.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-f, \-\-find\-links <url>
+URL for finding packages, which will be added to the output.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-l, \-\-local
+If in a virtualenv that has global access, do not output globally\-installed packages.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-user
+Only output packages installed in user\-site.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-all
+Do not skip these packages in the output: pip, setuptools, distribute, wheel
+.UNINDENT
+
+.SS Examples
+.INDENT 0.0
+.IP 1. 3
+Generate output suitable for a requirements file.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip freeze
+docutils==0.11
+Jinja2==2.7.2
+MarkupSafe==0.19
+Pygments==1.6
+Sphinx==1.2.2
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 2. 3
+Generate a requirements file and then install from it in another environment.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ env1/bin/pip freeze > requirements.txt
+$ env2/bin/pip install \-r requirements.txt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS pip list
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%pip list\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Usage\fP
+.IP \(bu 2
+\fI\%Description\fP
+.IP \(bu 2
+\fI\%Options\fP
+.IP \(bu 2
+\fI\%Examples\fP
+.UNINDENT
+.UNINDENT
+.SS Usage
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+
+pip list [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Description
+.sp
+List installed packages, including editables.
+.sp
+Packages are listed in a case\-insensitive sorted order.
+
+.SS Options
+.sp
+.INDENT 0.0
+.TP
+.B \-o, \-\-outdated
+List outdated packages
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-u, \-\-uptodate
+List uptodate packages
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-e, \-\-editable
+List editable projects.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-l, \-\-local
+If in a virtualenv that has global access, do not list globally\-installed packages.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-user
+Only output packages installed in user\-site.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-pre
+Include pre\-release and development versions. By default, pip only finds stable versions.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-format <list_format>
+Select the output format among: legacy (default), columns, freeze or json.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-not\-required
+List packages that are not dependencies of installed packages.
+.UNINDENT
+
+.sp
+.INDENT 0.0
+.TP
+.B \-i, \-\-index\-url <url>
+Base URL of Python Package Index (default \fI\%https://pypi.python.org/simple\fP). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-extra\-index\-url <url>
+Extra URLs of package indexes to use in addition to \-\-index\-url. Should follow the same rules as \-\-index\-url.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-index
+Ignore package index (only looking at \-\-find\-links URLs instead).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-f, \-\-find\-links <url>
+If a url or path to an html file, then parse for links to archives. If a local path or \fI\%file://\fP url that\(aqs a directory, then look for archives in the directory listing.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-process\-dependency\-links
+Enable the processing of dependency links.
+.UNINDENT
+
+.SS Examples
+.INDENT 0.0
+.IP 1. 3
+List installed packages.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip list
+docutils (0.10)
+Jinja2 (2.7.2)
+MarkupSafe (0.18)
+Pygments (1.6)
+Sphinx (1.2.1)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 2. 3
+List outdated packages (excluding editables), and the latest version available.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip list \-\-outdated
+docutils (Current: 0.10 Latest: 0.11)
+Sphinx (Current: 1.2.1 Latest: 1.2.2)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 3. 3
+List installed packages with column formatting.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip list \-\-format columns
+Package Version
+\-\-\-\-\-\-\- \-\-\-\-\-\-\-
+docopt  0.6.2
+idlex   1.13
+jedi    0.9.0
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 4. 3
+List outdated packages with column formatting.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip list \-o \-\-format columns
+Package    Version Latest Type
+\-\-\-\-\-\-\-\-\-\- \-\-\-\-\-\-\- \-\-\-\-\-\- \-\-\-\-\-
+retry      0.8.1   0.9.1  wheel
+setuptools 20.6.7  21.0.0 wheel
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 5. 3
+List packages that are not dependencies of other packages. Can be combined with
+other options.
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip list \-\-outdated \-\-not\-required
+docutils (Current: 0.10 Latest: 0.11)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 6. 3
+Use legacy formatting
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip list \-\-format=legacy
+colorama (0.3.7)
+docopt (0.6.2)
+idlex (1.13)
+jedi (0.9.0)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 7. 3
+Use json formatting
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip list \-\-format=json
+[{\(aqname\(aq: \(aqcolorama\(aq, \(aqversion\(aq: \(aq0.3.7\(aq}, {\(aqname\(aq: \(aqdocopt\(aq, \(aqversion\(aq: \(aq0.6.2\(aq}, ...
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 8. 3
+Use freeze formatting
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip list \-\-format=freeze
+colorama==0.3.7
+docopt==0.6.2
+idlex==1.13
+jedi==0.9.0
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS pip show
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%pip show\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Usage\fP
+.IP \(bu 2
+\fI\%Description\fP
+.IP \(bu 2
+\fI\%Options\fP
+.IP \(bu 2
+\fI\%Examples\fP
+.UNINDENT
+.UNINDENT
+.SS Usage
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+
+pip show [options] <package> ...
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Description
+.sp
+Show information about one or more installed packages.
+
+.SS Options
+.sp
+.INDENT 0.0
+.TP
+.B \-f, \-\-files
+Show the full list of installed files for each package.
+.UNINDENT
+
+.SS Examples
+.INDENT 0.0
+.IP 1. 3
+Show information about a package:
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip show sphinx
+Name: Sphinx
+Version: 1.4.5
+Summary: Python documentation generator
+Home\-page: http://sphinx\-doc.org/
+Author: Georg Brandl
+Author\-email: georg@python.org
+License: BSD
+Location: /my/env/lib/python2.7/site\-packages
+Requires: docutils, snowballstemmer, alabaster, Pygments, imagesize, Jinja2, babel, six
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP 2. 3
+Show all information about a package
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip show \-\-verbose sphinx
+Name: Sphinx
+Version: 1.4.5
+Summary: Python documentation generator
+Home\-page: http://sphinx\-doc.org/
+Author: Georg Brandl
+Author\-email: georg@python.org
+License: BSD
+Location: /my/env/lib/python2.7/site\-packages
+Requires: docutils, snowballstemmer, alabaster, Pygments, imagesize, Jinja2, babel, six
+Metadata\-Version: 2.0
+Installer:
+Classifiers:
+  Development Status :: 5 \- Production/Stable
+  Environment :: Console
+  Environment :: Web Environment
+  Intended Audience :: Developers
+  Intended Audience :: Education
+  License :: OSI Approved :: BSD License
+  Operating System :: OS Independent
+  Programming Language :: Python
+  Programming Language :: Python :: 2
+  Programming Language :: Python :: 3
+  Framework :: Sphinx
+  Framework :: Sphinx :: Extension
+  Framework :: Sphinx :: Theme
+  Topic :: Documentation
+  Topic :: Documentation :: Sphinx
+  Topic :: Text Processing
+  Topic :: Utilities
+Entry\-points:
+  [console_scripts]
+  sphinx\-apidoc = sphinx.apidoc:main
+  sphinx\-autogen = sphinx.ext.autosummary.generate:main
+  sphinx\-build = sphinx:main
+  sphinx\-quickstart = sphinx.quickstart:main
+  [distutils.commands]
+  build_sphinx = sphinx.setup_command:BuildDoc
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS pip search
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%pip search\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Usage\fP
+.IP \(bu 2
+\fI\%Description\fP
+.IP \(bu 2
+\fI\%Options\fP
+.IP \(bu 2
+\fI\%Examples\fP
+.UNINDENT
+.UNINDENT
+.SS Usage
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+
+pip search [options] <query>
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Description
+.sp
+Search for PyPI packages whose name or summary contains <query>.
+
+.SS Options
+.sp
+.INDENT 0.0
+.TP
+.B \-i, \-\-index <url>
+Base URL of Python Package Index (default \fI\%https://pypi.python.org/pypi\fP)
+.UNINDENT
+
+.SS Examples
+.INDENT 0.0
+.IP 1. 3
+Search for "peppercorn"
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip search peppercorn
+pepperedform    \- Helpers for using peppercorn with formprocess.
+peppercorn      \- A library for converting a token stream into [...]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS pip wheel
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%pip wheel\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Usage\fP
+.IP \(bu 2
+\fI\%Description\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Build System Interface\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Customising the build\fP
+.UNINDENT
+.UNINDENT
+.IP \(bu 2
+\fI\%Options\fP
+.IP \(bu 2
+\fI\%Examples\fP
+.UNINDENT
+.UNINDENT
+.SS Usage
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+
+pip wheel [options] <requirement specifier> ...
+pip wheel [options] \-r <requirements file> ...
+pip wheel [options] [\-e] <vcs project url> ...
+pip wheel [options] [\-e] <local project path> ...
+pip wheel [options] <archive url/path> ...
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Description
+.sp
+Build Wheel archives for your requirements and dependencies.
+.sp
+Wheel is a built\-package format, and offers the advantage of not
+recompiling your software during every install. For more details, see the
+wheel docs: \fI\%https://wheel.readthedocs.io/en/latest/\fP
+.sp
+Requirements: setuptools>=0.8, and wheel.
+.sp
+\(aqpip wheel\(aq uses the bdist_wheel setuptools extension from the wheel
+package to build individual wheels.
+
+.SS Build System Interface
+.sp
+In order for pip to build a wheel, \fBsetup.py\fP must implement the
+\fBbdist_wheel\fP command with the following syntax:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+python setup.py bdist_wheel \-d TARGET
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This command must create a wheel compatible with the invoking Python
+interpreter, and save that wheel in the directory TARGET.
+.sp
+No other build system commands are invoked by the \fBpip wheel\fP command.
+.SS Customising the build
+.sp
+It is possible using \fB\-\-global\-option\fP to include additional build commands
+with their arguments in the \fBsetup.py\fP command. This is currently the only
+way to influence the building of C extensions from the command line. For
+example:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip wheel \-\-global\-option bdist_ext \-\-global\-option \-DFOO wheel
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+will result in a build command of
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+setup.py bdist_ext \-DFOO bdist_wheel \-d TARGET
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+which passes a preprocessor symbol to the extension build.
+.sp
+Such usage is considered highly build\-system specific and more an accident of
+the current implementation than a supported interface.
+.SS Options
+.sp
+.INDENT 0.0
+.TP
+.B \-w, \-\-wheel\-dir <dir>
+Build wheels into <dir>, where the default is the current working directory.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-use\-wheel
+Do not Find and prefer wheel archives when searching indexes and find\-links locations. DEPRECATED in favour of \-\-no\-binary.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-binary <format_control>
+Do not use binary packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either :all: to disable all binary packages, :none: to empty the set, or one or more package names with commas between them. Note that some packages are tricky to compile and may fail to install when this option is used on them.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-only\-binary <format_control>
+Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either :all: to disable all source packages, :none: to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-build\-option <options>
+Extra arguments to be supplied to \(aqsetup.py bdist_wheel\(aq.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-c, \-\-constraint <file>
+Constrain versions using the given constraints file. This option can be used multiple times.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-e, \-\-editable <path/url>
+Install a project in editable mode (i.e. setuptools "develop mode") from a local project path or a VCS url.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-r, \-\-requirement <file>
+Install from the given requirements file. This option can be used multiple times.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-src <dir>
+Directory to check out editable projects into. The default in a virtualenv is "<venv path>/src". The default for global installs is "<current dir>/src".
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ignore\-requires\-python
+Ignore the Requires\-Python information.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-deps
+Don\(aqt install package dependencies.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-b, \-\-build <dir>
+Directory to unpack packages into and build in.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-global\-option <options>
+Extra global options to be supplied to the setup.py call before the \(aqbdist_wheel\(aq command.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-pre
+Include pre\-release and development versions. By default, pip only finds stable versions.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-clean
+Don\(aqt clean up build directories.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-require\-hashes
+Require a hash to check each requirement against, for repeatable installs. This option is implied when any package in a requirements file has a \-\-hash option.
+.UNINDENT
+
+.sp
+.INDENT 0.0
+.TP
+.B \-i, \-\-index\-url <url>
+Base URL of Python Package Index (default \fI\%https://pypi.python.org/simple\fP). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-extra\-index\-url <url>
+Extra URLs of package indexes to use in addition to \-\-index\-url. Should follow the same rules as \-\-index\-url.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-index
+Ignore package index (only looking at \-\-find\-links URLs instead).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-f, \-\-find\-links <url>
+If a url or path to an html file, then parse for links to archives. If a local path or \fI\%file://\fP url that\(aqs a directory, then look for archives in the directory listing.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-process\-dependency\-links
+Enable the processing of dependency links.
+.UNINDENT
+
+.SS Examples
+.INDENT 0.0
+.IP 1. 3
+Build wheels for a requirement (and all its dependencies), and then install
+.INDENT 3.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip wheel \-\-wheel\-dir=/tmp/wheelhouse SomePackage
+$ pip install \-\-no\-index \-\-find\-links=/tmp/wheelhouse SomePackage
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS pip hash
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%pip hash\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Usage\fP
+.IP \(bu 2
+\fI\%Description\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Overview\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%Options\fP
+.IP \(bu 2
+\fI\%Example\fP
+.UNINDENT
+.UNINDENT
+.SS Usage
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip hash [options] <file> ...
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Description
+.sp
+Compute a hash of a local package archive.
+.sp
+These can be used with \-\-hash in a requirements file to do repeatable
+installs.
+
+.SS Overview
+.sp
+\fBpip hash\fP is a convenient way to get a hash digest for use with
+hash\-checking mode, especially for packages with multiple archives. The
+error message from \fBpip install \-\-require\-hashes ...\fP will give you one
+hash, but, if there are multiple archives (like source and binary ones), you
+will need to manually download and compute a hash for the others. Otherwise, a
+spurious hash mismatch could occur when pip install is passed a
+different set of options, like \-\-no\-binary\&.
+.SS Options
+.sp
+.INDENT 0.0
+.TP
+.B \-a, \-\-algorithm <algorithm>
+The hash algorithm to use: one of sha256, sha384, sha512
+.UNINDENT
+
+.SS Example
+.sp
+Compute the hash of a downloaded archive:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ pip download SomePackage
+    Collecting SomePackage
+      Downloading SomePackage\-2.2.tar.gz
+      Saved ./pip_downloads/SomePackage\-2.2.tar.gz
+    Successfully downloaded SomePackage
+$ pip hash ./pip_downloads/SomePackage\-2.2.tar.gz
+    ./pip_downloads/SomePackage\-2.2.tar.gz:
+    \-\-hash=sha256:93e62e05c7ad3da1a233def6731e8285156701e3419a5fe279017c429ec67ce0
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SH DEVELOPMENT
+.SS Pull Requests
+.INDENT 0.0
+.IP \(bu 2
+Submit Pull Requests against the \fImaster\fP branch.
+.IP \(bu 2
+Provide a good description of what you\(aqre doing and why.
+.IP \(bu 2
+Provide tests that cover your changes and try to run the tests locally first.
+.UNINDENT
+.sp
+\fBExample\fP\&. Assuming you set up GitHub account, forked pip repository from
+\fI\%https://github.com/pypa/pip\fP to your own page via web interface, and your
+fork is located at \fI\%https://github.com/yourname/pip\fP
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ git clone git@github.com:pypa/pip.git
+$ cd pip
+# ...
+$ git diff
+$ git add <modified> ...
+$ git status
+$ git commit
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+You may reference relevant issues in commit messages (like #1259) to
+make GitHub link issues and commits together, and with phrase like
+"fixes #1259" you can even close relevant issues automatically. Now
+push the changes to your fork:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ git push git@github.com:yourname/pip.git
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Open Pull Requests page at \fI\%https://github.com/yourname/pip/pulls\fP and
+click "New pull request". That\(aqs it.
+.SS Automated Testing
+.sp
+All pull requests and merges to \(aqmaster\(aq branch are tested in \fI\%Travis\fP
+based on our \fI\%\&.travis.yml file\fP\&.
+.sp
+Usually, a link to your specific travis build appears in pull requests, but if not,
+you can find it on our \fI\%travis pull requests page\fP
+.sp
+The only way to trigger Travis to run again for a pull request, is to submit another change to the pull branch.
+.sp
+We also have Jenkins CI that runs regularly for certain python versions on windows and centos.
+.SS Running tests
+.sp
+OS Requirements: subversion, bazaar, git, and mercurial.
+.sp
+Python Requirements: tox or pytest, virtualenv, scripttest, and mock
+.sp
+Ways to run the tests locally:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ tox \-e py33           # The preferred way to run the tests, can use pyNN to
+                        # run for a particular version or leave off the \-e to
+                        # run for all versions.
+$ python setup.py test  # Using the setuptools test plugin
+$ py.test               # Using py.test directly
+$ tox                   # Using tox against pip\(aqs tox.ini
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+If you are missing one of the VCS tools, you can tell \fBpy.test\fP to skip it:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ py.test \-k \(aqnot bzr\(aq
+$ py.test \-k \(aqnot svn\(aq
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Getting Involved
+.sp
+The pip project welcomes help in the following ways:
+.INDENT 0.0
+.IP \(bu 2
+Making Pull Requests for code, tests, or docs.
+.IP \(bu 2
+Commenting on open issues and pull requests.
+.IP \(bu 2
+Helping to answer questions on the mailing list.
+.UNINDENT
+.sp
+If you want to become an official maintainer, start by helping out.
+.sp
+Later, when you think you\(aqre ready, get in touch with one of the maintainers,
+and they will initiate a vote.
+.SS Release Process
+.INDENT 0.0
+.IP 1. 3
+On the current pip \fBmaster\fP branch, generate a new \fBAUTHORS.txt\fP by
+running \fBinvoke generate.authors\fP and commit the results.
+.IP 2. 3
+On the current pip \fBmaster\fP branch, make a new commit which bumps the
+version in \fBpip/__init__.py\fP to the release version and adjust the
+\fBCHANGES.txt\fP file to reflect the current date.
+.IP 3. 3
+Create a signed tag of the \fBmaster\fP branch of the form \fBX.Y.Z\fP using the
+command \fBgit tag \-s X.Y.Z\fP\&.
+.IP 4. 3
+Checkout the tag using \fBgit checkout X.Y.Z\fP and create the distribution
+files using \fBpython setup.py sdist bdist_wheel\fP\&.
+.IP 5. 3
+Upload the distribution files to PyPI using twine
+(\fBtwine upload \-s dist/*\fP). The upload should include GPG signatures of
+the distribution files.
+.IP 6. 3
+Push all of the changes.
+.IP 7. 3
+Regenerate the \fBget\-pip.py\fP script by running
+\fBinvoke generate.installer\fP in the get\-pip repository, and committing the
+results.
+.UNINDENT
+.SS Creating a Bugfix Release
+.sp
+Sometimes we need to release a bugfix release of the form \fBX.Y.Z+1\fP\&. In order
+to create one of these the changes should already be merged into the
+\fBmaster\fP branch.
+.INDENT 0.0
+.IP 1. 3
+Create a new \fBrelease/X.Y.Z+1\fP branch off of the \fBX.Y.Z\fP tag using the
+command \fBgit checkout \-b release/X.Y.Z+1 X.Y.Z\fP\&.
+.IP 2. 3
+Cherry pick the fixed commits off of the \fBmaster\fP branch, fixing any
+conflicts and moving any changelog entries from the development version\(aqs
+changelog section to the \fBX.Y.Z+1\fP section.
+.IP 3. 3
+Push the \fBrelease/X.Y.Z+1\fP branch to github and submit a PR for it against
+the \fBmaster\fP branch and wait for the tests to run.
+.IP 4. 3
+Once tests run, merge the \fBrelease/X.Y.Z+1\fP branch into master, and follow
+the above release process starting with step 4.
+.UNINDENT
+.SH RELEASE NOTES
+.sp
+\fB9.0.3 (2018\-03\-21)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fix an error where the vendored requests was not correctly containing itself
+to only the internal vendored prefix.
+.IP \(bu 2
+Restore compatability with 2.6.
+.UNINDENT
+.sp
+\fB9.0.2 (2018\-03\-16)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fallback to using SecureTransport on macOS when the linked OpenSSL is too old
+to support TLSv1.2.
+.UNINDENT
+.sp
+\fB9.0.1 (2016\-11\-06)\fP
+.INDENT 0.0
+.IP \(bu 2
+Correct the deprecation message when not specifying a \-\-format so that it
+uses the correct setting name (\fBformat\fP) rather than the incorrect one
+(\fBlist_format\fP) (\fI\%#4058\fP).
+.IP \(bu 2
+Fix \fBpip check\fP to check all available distributions and not just the
+local ones (\fI\%#4083\fP).
+.IP \(bu 2
+Fix a crash on non ASCII characters from \fIlsb_release\fP (\fI\%#4062\fP).
+.IP \(bu 2
+Fix an SyntaxError in an an used module of a vendored dependency
+(\fI\%#4059\fP).
+.IP \(bu 2
+Fix UNC paths on Windows (\fI\%#4064\fP).
+.UNINDENT
+.sp
+\fB9.0.0 (2016\-11\-02)\fP
+.INDENT 0.0
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Remove the attempted autodetection of requirement
+names from URLs, URLs must include a name via \fB#egg=\fP\&.
+.IP \(bu 2
+\fBDEPRECATION\fP \fBpip install \-\-egg\fP have been deprecated and will be
+removed in the future. This "feature" has a long list of drawbacks which
+break nearly all of pip\(aqs other features in subtle and hard\-to\-diagnose
+ways.
+.IP \(bu 2
+\fBDEPRECATION\fP \fB\-\-default\-vcs\fP option (\fI\%#4052\fP).
+.IP \(bu 2
+\fBWARNING\fP pip 9 cache can break forward compatibility with previous pip
+versions if your package repository allows chunked responses (\fI\%#4078\fP).
+.IP \(bu 2
+Add a \fBpip check\fP command to check installed packages dependencies
+(\fI\%PR #3750\fP).
+.IP \(bu 2
+Add option allowing user to abort pip operation if file/directory exists
+.IP \(bu 2
+Add Appveyor CI
+.IP \(bu 2
+Uninstall existing packages when performing an editable installation of
+the same packages (\fI\%#1548\fP).
+.IP \(bu 2
+\fBpip show\fP is less verbose by default. \fB\-\-verbose\fP prints multiline fields.
+(\fI\%PR #3858\fP).
+.IP \(bu 2
+Add optional column formatting to \fBpip list\fP (\fI\%#3651\fP).
+.IP \(bu 2
+Add \fB\-\-not\-required\fP option to \fBpip list\fP, which lists packages that are
+not dependencies of other packages.
+.IP \(bu 2
+Fix builds on systems with symlinked \fB/tmp\fP directory for custom
+builds such as numpy (\fI\%PR #3701\fP).
+.IP \(bu 2
+Fix regression in \fBpip freeze\fP: when there is more than one git remote,
+priority is given to the remote named \fBorigin\fP (\fI\%PR #3708\fP, \fI\%#3616\fP).
+.IP \(bu 2
+Fix crash when calling \fBpip freeze\fP with invalid requirement installed
+(\fI\%PR #3704\fP, \fI\%#3681\fP).
+.IP \(bu 2
+Allow multiple \fB\-\-requirement\fP files in \fBpip freeze\fP (\fI\%PR #3703\fP).
+.IP \(bu 2
+Implementation of pep\-503 \fBdata\-requires\-python\fP\&. When this field is
+present for a release link, pip will ignore the download when
+installing to a Python version that doesn\(aqt satisfy the requirement.
+.IP \(bu 2
+\fBpip wheel\fP now works on editable packages too (it was only working on
+editable dependencies before); this allows running \fBpip wheel\fP on the result
+of \fBpip freeze\fP in presence of editable requirements (\fI\%PR #3695\fP,
+\fI\%#3291\fP).
+.IP \(bu 2
+Load credentials from \fB\&.netrc\fP files (\fI\%PR #3715\fP, \fI\%#3569\fP).
+.IP \(bu 2
+Add \fB\-\-platform\fP, \fB\-\-python\-version\fP, \fB\-\-implementation\fP and \fB\-\-abi\fP parameters to
+\fBpip download\fP\&. These allow utilities and advanced users to gather
+distributions for interpreters other than the one pip is being run on.
+(\fI\%PR #3760\fP)
+.IP \(bu 2
+Skip scanning virtual environments, even when venv/bin/python is a dangling
+symlink.
+.IP \(bu 2
+Added \fBpip completion\fP support for the \fBfish\fP shell.
+.IP \(bu 2
+Fix problems on Windows on Python 2 when username or hostname contains
+non\-ASCII characters (\fI\%#3463\fP, \fI\%PR #3970\fP, \fI\%PR #4000\fP).
+.IP \(bu 2
+Use \fBgit fetch \-\-tags\fP to fetch tags in addition to everything else that
+is normally fetched; this is necessary in case a git requirement url
+points to a tag or commit that is not on a branch (\fI\%PR #3791\fP)
+.IP \(bu 2
+Normalize package names before using in \fBpip show\fP (\fI\%#3976\fP)
+.IP \(bu 2
+Raise when Requires\-Python do not match the running version and add
+\fB\-\-ignore\-requires\-python\fP option as escape hatch (\fI\%PR #3846\fP).
+.IP \(bu 2
+Report the correct installed version when performing an upgrade in some
+corner cases (\fI\%#2382\fP)
+.IP \(bu 2
+Add \fB\-i\fP shorthand for \fB\-\-index\fP flag in \fBpip search\fP
+.IP \(bu 2
+Do not optionally load C dependencies in requests (\fI\%#1840\fP,
+\fI\%#2930\fP, \fI\%#3024\fP)
+.IP \(bu 2
+Strip authentication from SVN url prior to passing it to \fBsvn\fP
+(\fI\%PR #3697\fP, \fI\%#3209\fP).
+.IP \(bu 2
+Also install in platlib with \fB\-\-target\fP option (\fI\%PR #3694\fP, \fI\%#3682\fP).
+.IP \(bu 2
+Restore the ability to use inline comments in requirements files passed to
+\fBpip freeze\fP (\fI\%#3680\fP).
+.UNINDENT
+.sp
+\fB8.1.2 (2016\-05\-10)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fix a regression on systems with uninitialized locale (\fI\%#3575\fP).
+.IP \(bu 2
+Use environment markers to filter packages before determining if a
+required wheel is supported. Solves (\fI\%#3254\fP).
+.IP \(bu 2
+Make glibc parsing for \fImanylinux1\fP support more robust for the variety of
+glibc versions found in the wild (\fI\%#3588\fP).
+.IP \(bu 2
+Update environment marker support to fully support PEP 508 and legacy
+environment markers (\fI\%#3624\fP).
+.IP \(bu 2
+Always use debug logging to the \fB\-\-log\fP file (\fI\%#3351\fP).
+.IP \(bu 2
+Don\(aqt attempt to wrap search results for extremely narrow terminal windows
+(\fI\%#3655\fP).
+.UNINDENT
+.sp
+\fB8.1.1 (2016\-03\-17)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fix regression with non\-ascii requirement files on Python 2 and add support
+for encoding headers in requirement files (\fI\%#3548\fP, \fI\%PR #3547\fP).
+.UNINDENT
+.sp
+\fB8.1.0 (2016\-03\-05)\fP
+.INDENT 0.0
+.IP \(bu 2
+Implement PEP 513, which adds support for the manylinux1 platform tag,
+allowing carefully compiled binary wheels to be installed on compatible Linux
+platforms.
+.IP \(bu 2
+Allow wheels which are not specific to a particular Python interpreter but
+which are specific to a particular platform (\fI\%#3202\fP).
+.IP \(bu 2
+Fixed an issue where \fBcall_subprocess\fP would crash trying to print debug
+data on child process failure (\fI\%#3521\fP, \fI\%PR #3522\fP).
+.IP \(bu 2
+Exclude the wheel package from the \fIpip freeze\fP output (like pip and setuptools).
+\fI\%#2989\fP\&.
+.IP \(bu 2
+Allow installing modules from a subdirectory of a vcs repository
+in non\-editable mode (\fI\%#3217\fP, \fI\%PR #3466\fP).
+.IP \(bu 2
+Make pip wheel and pip download work with vcs urls with subdirectory option
+(\fI\%PR #3466\fP).
+.IP \(bu 2
+Show classifiers in \fBpip show\fP\&.
+.IP \(bu 2
+Show PEP376 Installer in \fBpip show\fP (\fI\%#3517\fP).
+.IP \(bu 2
+Unhide completion command (\fI\%PR #1810\fP).
+.IP \(bu 2
+Show latest version number in \fBpip search\fP results (\fI\%PR #1415\fP).
+.IP \(bu 2
+Decode requirement files according to their BOM if present (\fI\%PR #3485\fP,
+\fI\%#2865\fP).
+.IP \(bu 2
+Fix and deprecate package name detection from url path (\fI\%#3523\fP and
+\fI\%PR #3495\fP).
+.IP \(bu 2
+Correct the behavior where interpreter specific tags (such as cp34) were
+being used on later versions of the same interpreter instead of only for that
+specific interpreter (\fI\%#3472\fP).
+.IP \(bu 2
+Fix an issue where pip would erroneously install a 64 bit wheel on a 32 bit
+Python running on a 64 bit macOS machine.
+.IP \(bu 2
+Do not assume that all git repositories have an origin remote.
+.IP \(bu 2
+Correctly display the line to add to a requirements.txt for an URL based
+dependency when \fB\-\-require\-hashes\fP is enabled.
+.UNINDENT
+.sp
+\fB8.0.3 (2016\-02\-25)\fP
+.INDENT 0.0
+.IP \(bu 2
+Make \fBinstall \-\-quiet\fP really quiet. See \fI\%#3418\fP\&.
+.IP \(bu 2
+Fix a bug when removing packages in python 3: disable INI\-style parsing of the
+entry_point.txt file to allow entry point names with colons (\fI\%PR #3434\fP)
+.IP \(bu 2
+Normalize generated script files path in RECORD files. (\fI\%PR #3448\fP)
+.IP \(bu 2
+Fix bug introduced in 8.0.0 where subcommand output was not shown,
+even when the user specified \fB\-v\fP / \fB\-\-verbose\fP\&. \fI\%#3486\fP\&.
+.IP \(bu 2
+Enable python \-W with respect to PipDeprecationWarning. (\fI\%PR #3455\fP)
+.IP \(bu 2
+Upgrade distlib to 0.2.2 (fix \fI\%#3467\fP):
+.INDENT 2.0
+.IP \(bu 2
+Improved support for Jython when quoting executables in output scripts.
+.UNINDENT
+.IP \(bu 2
+Add a \fI\-\-all\fP option to \fIpip freeze\fP to include usually skipped package
+(like pip, setuptools and wheel) to the freeze output. \fI\%#1610\fP\&.
+.UNINDENT
+.sp
+\fB8.0.2 (2016\-01\-21)\fP
+.INDENT 0.0
+.IP \(bu 2
+Stop attempting to trust the system CA trust store because it\(aqs extremely
+common for them to be broken, often in incompatible ways. See \fI\%PR #3416\fP\&.
+.UNINDENT
+.sp
+\fB8.0.1 (2016\-01\-21)\fP
+.INDENT 0.0
+.IP \(bu 2
+Detect CAPaths in addition to CAFiles on platforms that provide them.
+.IP \(bu 2
+Installing argparse or wsgiref will no longer warn or error \- pip will allow
+the installation even though it may be useless (since the installed thing
+will be shadowed by the standard library).
+.IP \(bu 2
+Upgrading a distutils installed item that is installed outside of a virtual
+environment, while inside of a virtual environment will no longer warn or
+error.
+.IP \(bu 2
+Fix a bug where pre\-releases were showing up in \fBpip list \-\-outdated\fP
+without the \fB\-\-pre\fP flag.
+.IP \(bu 2
+Switch the SOABI emulation from using RuntimeWarnings to debug logging.
+.IP \(bu 2
+Rollback the removal of the ability to uninstall distutils installed items
+until a future date.
+.UNINDENT
+.sp
+\fB8.0.0 (2016\-01\-19)\fP
+.INDENT 0.0
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Drop support for Python 3.2.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Remove the ability to find any files other than the
+ones directly linked from the index or find\-links pages.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Remove the \fB\-\-download\-cache\fP which had been
+deprecated and no\-op\(aqd in 6.0.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Remove the \fB\-\-log\-explicit\-levels\fP which had been
+deprecated in 6.0.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Change pip wheel \-\-wheel\-dir default path from
+<cwd>/wheelhouse to <cwd>.
+.IP \(bu 2
+Deprecate and no\-op the \fB\-\-allow\-external\fP, \fB\-\-allow\-all\-external\fP, and
+\fB\-\-allow\-unverified\fP functionality that was added as part of PEP 438. With
+changes made to the repository protocol made in PEP 470, these options are no
+longer functional.
+.IP \(bu 2
+Allow \fB\-\-trusted\-host\fP within a requirements file. \fI\%#2822\fP\&.
+.IP \(bu 2
+Allow \fB\-\-process\-dependency\-links\fP within a requirements file. \fI\%#1274\fP\&.
+.IP \(bu 2
+Allow \fB\-\-pre\fP within a requirements file. \fI\%#1273\fP\&.
+.IP \(bu 2
+Allow repository URLs with secure transports to count as trusted. (E.g.,
+"git+ssh" is okay.) \fI\%#2811\fP\&.
+.IP \(bu 2
+Implement a top\-level \fBpip download\fP command and deprecate
+\fBpip install \-\-download\fP\&.
+.IP \(bu 2
+Fixed \fI\%#3141\fP, when uninstalling, look for the case of paths containing
+symlinked directories (\fI\%PR #3154\fP)
+.IP \(bu 2
+When installing, if building a wheel fails, clear up the build directory
+before falling back to a source install. \fI\%#3047\fP\&.
+.IP \(bu 2
+Fix user directory expansion when \fBHOME=/\fP\&. Workaround for Python bug
+\fI\%http://bugs.python.org/issue14768\fP, reported in \fI\%#2996\fP\&.
+.IP \(bu 2
+Fixed \fI\%#3009\fP, correct reporting of requirements file line numbers
+(\fI\%PR #3125\fP)
+.IP \(bu 2
+Fixed \fI\%#1062\fP, Exception(IOError) for \fBpip freeze\fP and \fBpip list\fP
+commands with subversion >= 1.7. (\fI\%PR #3346\fP)
+.IP \(bu 2
+Provide a spinner showing that progress is happening when installing or
+building a package via \fBsetup.py\fP\&. This will alleviate concerns that
+projects with unusually long build times have with pip appearing to stall.
+.IP \(bu 2
+Include the functionality of \fBpeep\fP into pip, allowing hashes to be baked
+into a requirements file and ensuring that the packages being downloaded
+match one of those hashes. This is an additional, opt\-in security measure
+that, when used, removes the need to trust the repository.
+.IP \(bu 2
+Fix a bug causing pip to not select a wheel compiled against an OSX SDK later
+than what Python itself was compiled against when running on a newer version
+of OSX.
+.IP \(bu 2
+Add a new \fB\-\-prefix\fP option for \fBpip install\fP that supports wheels and
+sdists. (\fI\%PR #3252\fP)
+.IP \(bu 2
+Fixed \fI\%#2042\fP regarding wheel building with setup.py using a different
+encoding than the system.
+.IP \(bu 2
+Drop PasteScript specific egg_info hack. (\fI\%PR #3270\fP)
+.IP \(bu 2
+Allow combination of pip list options \-\-editable with \-\-outdated/\-\-uptodate.
+(\fI\%#933\fP)
+.IP \(bu 2
+Gives VCS implementations control over saying whether a project
+is under their control (\fI\%PR #3258\fP)
+.IP \(bu 2
+Git detection now works when \fBsetup.py\fP is not at the Git repo root
+and when \fBpackage_dir\fP is used, so \fBpip freeze\fP works in more
+cases (\fI\%PR #3258\fP)
+.IP \(bu 2
+Correctly freeze Git develop packages in presence of the &subdirectory
+option (\fI\%PR #3258\fP)
+.IP \(bu 2
+The detection of editable packages now relies on the presence of \fB\&.egg\-link\fP
+instead of looking for a VCS, so \fBpip list \-e\fP is more reliable
+(\fI\%PR #3258\fP)
+.IP \(bu 2
+Add the \fB\-\-prefix\fP flag to \fBpip install\fP which allows specifying a root
+prefix to use instead of \fBsys.prefix\fP (\fI\%PR #3252\fP).
+.IP \(bu 2
+Allow duplicate specifications in the case that only the extras differ, and
+union all specified extras together (\fI\%PR #3198\fP).
+.IP \(bu 2
+Fix the detection of the user\(aqs current platform on OSX when determining the
+OSX SDK version (\fI\%PR #3232\fP).
+.IP \(bu 2
+Prevent the automatically built wheels from mistakenly being used across
+multiple versions of Python when they may not be correctly configured for
+that by making the wheel specific to a specific version of Python and
+specific interpreter (\fI\%PR #3225\fP).
+.IP \(bu 2
+Emulate the SOABI support in wheels from Python 2.x on Python 2.x as closely
+as we can with the information available within the interpreter
+(\fI\%PR #3075\fP).
+.IP \(bu 2
+Don\(aqt roundtrip to the network when git is pinned to a specific commit hash
+and that hash already exists locally (\fI\%PR #3066\fP).
+.IP \(bu 2
+Prefer wheels built against a newer SDK to wheels built against an older SDK
+on OSX (\fI\%PR #3163\fP).
+.IP \(bu 2
+Show entry points for projects installed via wheel (\fI\%PR #3122\fP).
+.IP \(bu 2
+Improve message when an unexisting path is passed to \-\-find\-links option
+(\fI\%#2968\fP).
+.IP \(bu 2
+pip freeze does not add the VCS branch/tag name in the #egg=... fragment anymore
+(\fI\%PR #3312\fP).
+.IP \(bu 2
+Warn on installation of editable if the provided #egg=name part does not
+match the metadata produced by \fIsetup.py egg_info\fP\&. \fI\%#3143\fP\&.
+.IP \(bu 2
+Add support for .xz files for python versions supporting them (>= 3.3).
+\fI\%#722\fP\&.
+.UNINDENT
+.sp
+\fB7.1.2 (2015\-08\-22)\fP
+.INDENT 0.0
+.IP \(bu 2
+Don\(aqt raise an error if pip is not installed when checking for the latest pip
+version.
+.UNINDENT
+.sp
+\fB7.1.1 (2015\-08\-20)\fP
+.INDENT 0.0
+.IP \(bu 2
+Check that the wheel cache directory is writable before we attempt to write
+cached files to them.
+.IP \(bu 2
+Move the pip version check until \fIafter\fP any installs have been performed,
+thus removing the extraneous warning when upgrading pip.
+.IP \(bu 2
+Added debug logging when using a cached wheel.
+.IP \(bu 2
+Respect platlib by default on platforms that have it separated from purelib.
+.IP \(bu 2
+Upgrade packaging to 15.3.
+.INDENT 2.0
+.IP \(bu 2
+Normalize post\-release spellings for rev/r prefixes.
+.UNINDENT
+.IP \(bu 2
+Upgrade distlib to 0.2.1.
+.INDENT 2.0
+.IP \(bu 2
+Updated launchers to decode shebangs using UTF\-8. This allows non\-ASCII
+pathnames to be correctly handled.
+.IP \(bu 2
+Ensured that the executable written to shebangs is normcased.
+.IP \(bu 2
+Changed ScriptMaker to work better under Jython.
+.UNINDENT
+.IP \(bu 2
+Upgrade ipaddress to 1.0.13.
+.UNINDENT
+.sp
+\fB7.1.0 (2015\-06\-30)\fP
+.INDENT 0.0
+.IP \(bu 2
+Allow constraining versions globally without having to know exactly what will
+be installed by the pip command. \fI\%#2731\fP\&.
+.IP \(bu 2
+Accept \-\-no\-binary and \-\-only\-binary via pip.conf. \fI\%#2867\fP\&.
+.IP \(bu 2
+Allow \fB\-\-allow\-all\-external\fP within a requirements file.
+.IP \(bu 2
+Fixed an issue where \fB\-\-user\fP could not be used when \fB\-\-prefix\fP was used
+in a distutils configuration file.
+.IP \(bu 2
+Fixed an issue where the SOABI tags were not correctly being generated on
+Python 3.5.
+.IP \(bu 2
+Fixed an issue where we were advising windows users to upgrade by directly
+executing pip, when that would always fail on Windows.
+.IP \(bu 2
+Allow \fB~\fP to be expanded within a cache directory in all situations.
+.UNINDENT
+.sp
+\fB7.0.3 (2015\-06\-01)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed a regression where \fB\-\-no\-cache\-dir\fP would raise an exception, fixes
+\fI\%#2855\fP\&.
+.UNINDENT
+.sp
+\fB7.0.2 (2015\-06\-01)\fP
+.INDENT 0.0
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Revert the change (released in v7.0.0) that
+required quoting in requirements files around specifiers containing
+environment markers. (\fI\%PR #2841\fP)
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Revert the accidental introduction of support for
+options interleaved with requirements, version specifiers etc in
+\fBrequirements\fP files. (\fI\%PR #2841\fP)
+.IP \(bu 2
+Expand \fB~\fP in the cache directory when caching wheels, fixes \fI\%#2816\fP\&.
+.IP \(bu 2
+Use \fBpython \-m pip\fP instead of \fBpip\fP when recommending an upgrade command
+to Windows users.
+.UNINDENT
+.sp
+\fB7.0.1 (2015\-05\-22)\fP
+.INDENT 0.0
+.IP \(bu 2
+Don\(aqt build and cache wheels for non\-editable installations from VCSs.
+.IP \(bu 2
+Allow \fB\-\-allow\-all\-external\fP inside of a requirements.txt file, fixing a
+regression in 7.0.
+.UNINDENT
+.sp
+\fB7.0.0 (2015\-05\-21)\fP
+.INDENT 0.0
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Removed the deprecated \fB\-\-mirror\fP,
+\fB\-\-use\-mirrors\fP, and \fB\-M\fP options.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Removed the deprecated \fBzip\fP and \fBunzip\fP
+commands.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Removed the deprecated \fB\-\-no\-install\fP and
+\fB\-\-no\-download\fP options.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP No longer implicitly support an insecure origin
+origin, and instead require insecure origins be explicitly trusted with the
+\fB\-\-trusted\-host\fP option.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Removed the deprecated link scraping that attempted
+to parse HTML comments for a specially formatted comment.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Requirements in requirements files containing
+markers must now be quoted due to parser changes from (\fI\%PR #2697\fP) and
+(\fI\%PR #2725\fP).  For example, use \fB"SomeProject; python_version < \(aq2.7\(aq"\fP,
+not simply \fBSomeProject; python_version < \(aq2.7\(aq\fP
+.IP \(bu 2
+\fIget\-pip.py\fP now installs the "wheel" package, when it\(aqs not already installed
+(\fI\%PR #2800\fP).
+.IP \(bu 2
+Ignores bz2 archives if Python wasn\(aqt compiled with bz2 support.
+Fixes \fI\%#497\fP
+.IP \(bu 2
+Support \fB\-\-install\-option\fP and \fB\-\-global\-option\fP per requirement in
+requirement files (\fI\%PR #2537\fP)
+.IP \(bu 2
+Build Wheels prior to installing from sdist, caching them in the pip cache
+directory to speed up subsequent installs. (\fI\%PR #2618\fP)
+.IP \(bu 2
+Allow fine grained control over the use of wheels and source builds.
+(\fI\%PR #2699\fP)
+.IP \(bu 2
+\fB\-\-no\-use\-wheel\fP and \fB\-\-use\-wheel\fP are deprecated in favour of new
+options \fB\-\-no\-binary\fP and \fB\-\-only\-binary\fP\&. The equivalent of
+\fB\-\-no\-use\-wheel\fP is \fB\-\-no\-binary=:all:\fP\&. (\fI\%PR #2699\fP)
+.IP \(bu 2
+The use of \fB\-\-install\-option\fP, \fB\-\-global\-option\fP or \fB\-\-build\-option\fP
+disable the use of wheels, and the autobuilding of wheels. (\fI\%PR #2711\fP)
+Fixes \fI\%#2677\fP
+.IP \(bu 2
+Improve logging when a requirement marker doesn\(aqt match your environment
+(\fI\%PR #2735\fP)
+.IP \(bu 2
+Removed the temporary modifications (that began in pip v1.4 when distribute
+and setuptools merged) that allowed distribute to be considered a conflict to
+setuptools. \fBpip install \-U setuptools\fP will no longer upgrade "distribute"
+to "setuptools".  Instead, use \fBpip install \-U distribute\fP (\fI\%PR #2767\fP).
+.IP \(bu 2
+Only display a warning to upgrade pip when the newest version is a final
+release and it is not a post release of the version we already have
+installed (\fI\%PR #2766\fP).
+.IP \(bu 2
+Display a warning when attempting to access a repository that uses HTTPS when
+we don\(aqt have Python compiled with SSL support (\fI\%PR #2761\fP).
+.IP \(bu 2
+Allowing using extras when installing from a file path without requiring the
+use of an editable (\fI\%PR #2785\fP).
+.IP \(bu 2
+Fix an infinite loop when the cache directory is stored on a file system
+which does not support hard links (\fI\%PR #2796\fP).
+.IP \(bu 2
+Remove the implicit debug log that was written on every invocation, instead
+users will need to use \fB\-\-log\fP if they wish to have one (\fI\%PR #2798\fP).
+.UNINDENT
+.sp
+\fB6.1.1 (2015\-04\-07)\fP
+.INDENT 0.0
+.IP \(bu 2
+No longer ignore dependencies which have been added to the standard library,
+instead continue to install them.
+.UNINDENT
+.sp
+\fB6.1.0 (2015\-04\-07)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixes \fI\%#2502\fP\&. Upgrades were failing when no potential links were found
+for dependencies other than the current installation. (\fI\%PR #2538\fP)
+.IP \(bu 2
+Use a smoother progress bar when the terminal is capable of handling it,
+otherwise fallback to the original ASCII based progress bar.
+.IP \(bu 2
+Display much less output when \fIpip install\fP succeeds, because on success,
+users probably don\(aqt care about all the nitty gritty details of compiling and
+installing. When \fIpip install\fP fails, display the failed install output once
+instead of twice, because once is enough. (\fI\%PR #2487\fP)
+.IP \(bu 2
+Upgrade the bundled copy of requests to 2.6.0, fixing CVE\-2015\-2296.
+.IP \(bu 2
+Display format of latest package when using \fBpip list \-\-outdated\fP\&.
+(\fI\%PR #2475\fP)
+.IP \(bu 2
+Don\(aqt use pywin32 as ctypes should always be available on Windows, using
+pywin32 prevented uninstallation of pywin32 on Windows. (\fI\%PR #2467\fP)
+.IP \(bu 2
+Normalize the \fB\-\-wheel\-dir\fP option, expanding out constructs such as \fB~\fP
+when used (\fI\%PR #2441\fP).
+.IP \(bu 2
+Display a warning when an undefined extra has been requested. (\fI\%PR #2142\fP)
+.IP \(bu 2
+Speed up installing a directory in certain cases by creating a sdist instead
+of copying the entire directory. (\fI\%PR #2535\fP)
+.IP \(bu 2
+Don\(aqt follow symlinks when uninstalling files (\fI\%PR #2552\fP)
+.IP \(bu 2
+Upgrade the bundled copy of cachecontrol from 0.11.1 to 0.11.2.
+Fixes \fI\%#2481\fP (\fI\%PR #2595\fP)
+.IP \(bu 2
+Attempt to more smartly choose the order of installation to try and install
+dependencies before the projects that depend on them. (\fI\%PR #2616\fP)
+.IP \(bu 2
+Skip trying to install libraries which are part of the standard library.
+(\fI\%PR #2636\fP, \fI\%PR #2602\fP)
+.IP \(bu 2
+Support arch specific wheels that are not tied to a specific Python ABI.
+(\fI\%PR #2561\fP)
+.IP \(bu 2
+Output warnings and errors to stderr instead of stdout. (\fI\%PR #2543\fP)
+.IP \(bu 2
+Adjust the cache dir file checks to only check ownership if the effective
+user is root. (\fI\%PR #2396\fP)
+.IP \(bu 2
+Install headers into a per project name directory instead of all of them into
+the root directory when inside of a virtual environment. (\fI\%PR #2421\fP)
+.UNINDENT
+.sp
+\fB6.0.8 (2015\-02\-04)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fix an issue where the \fB\-\-download\fP flag would cause pip to no longer use
+randomized build directories.
+.IP \(bu 2
+Fix an issue where pip did not properly unquote quoted URLs which contain
+characters like PEP 440\(aqs epoch separator (\fB!\fP).
+.IP \(bu 2
+Fix an issue where distutils installed projects were not actually uninstalled
+and deprecate attempting to uninstall them altogether.
+.IP \(bu 2
+Retry deleting directories in case a process like an antivirus is holding the
+directory open temporarily.
+.IP \(bu 2
+Fix an issue where pip would hide the cursor on Windows but would not reshow
+it.
+.UNINDENT
+.sp
+\fB6.0.7 (2015\-01\-28)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fix a regression where Numpy requires a build path without symlinks to
+properly build.
+.IP \(bu 2
+Fix a broken log message when running \fBpip wheel\fP without a requirement.
+.IP \(bu 2
+Don\(aqt mask network errors while downloading the file as a hash failure.
+.IP \(bu 2
+Properly create the state file for the pip version check so it only happens
+once a week.
+.IP \(bu 2
+Fix an issue where switching between Python 3 and Python 2 would evict cached
+items.
+.IP \(bu 2
+Fix a regression where pip would be unable to successfully uninstall a
+project without a normalized version.
+.UNINDENT
+.sp
+\fB6.0.6 (2015\-01\-03)\fP
+.INDENT 0.0
+.IP \(bu 2
+Continue the regression fix from 6.0.5 which was not a complete fix.
+.UNINDENT
+.sp
+\fB6.0.5 (2015\-01\-03)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fix a regression with 6.0.4 under Windows where most commands would raise an
+exception due to Windows not having the \fBos.geteuid()\fP function.
+.UNINDENT
+.sp
+\fB6.0.4 (2015\-01\-03)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fix an issue where ANSI escape codes would be used on Windows even though the
+Windows shell does not support them, causing odd characters to appear with
+the progress bar.
+.IP \(bu 2
+Fix an issue where using \-v would cause an exception saying
+\fBTypeError: not all arguments converted during string formatting\fP\&.
+.IP \(bu 2
+Fix an issue where using \-v with dependency links would cause an exception
+saying \fBTypeError: \(aqInstallationCandidate\(aq object is not iterable\fP\&.
+.IP \(bu 2
+Fix an issue where upgrading distribute would cause an exception saying
+\fBTypeError: expected string or buffer\fP\&.
+.IP \(bu 2
+Show a warning and disable the use of the cache directory when the cache
+directory is not owned by the current user, commonly caused by using \fBsudo\fP
+without the \fB\-H\fP flag.
+.IP \(bu 2
+Update PEP 440 support to handle the latest changes to PEP 440, particularly
+the changes to \fB>V\fP and \fB<V\fP so that they no longer imply \fB!=V.*\fP\&.
+.IP \(bu 2
+Document the default cache directories for each operating system.
+.IP \(bu 2
+Create the cache directory when the pip version check needs to save to it
+instead of silently logging an error.
+.IP \(bu 2
+Fix a regression where the \fB\-q\fP flag would not properly suppress the
+display of the progress bars.
+.UNINDENT
+.sp
+\fB6.0.3 (2014\-12\-23)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fix an issue where the implicit version check new in pip 6.0 could cause pip
+to block for up to 75 seconds if PyPI was not accessible.
+.IP \(bu 2
+Make \fB\-\-no\-index\fP imply \fB\-\-disable\-pip\-version\-check\fP\&.
+.UNINDENT
+.sp
+\fB6.0.2 (2014\-12\-23)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fix an issue where the output saying that a package was installed would
+report the old version instead of the new version during an upgrade.
+.IP \(bu 2
+Fix left over merge conflict markers in the documentation.
+.IP \(bu 2
+Document the backwards incompatible PEP 440 change in the 6.0.0 changelog.
+.UNINDENT
+.sp
+\fB6.0.1 (2014\-12\-22)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fix executable file permissions for Wheel files when using the distutils
+scripts option.
+.IP \(bu 2
+Fix a confusing error message when an exceptions was raised at certain
+points in pip\(aqs execution.
+.IP \(bu 2
+Fix the missing list of versions when a version cannot be found that matches
+the specifiers.
+.IP \(bu 2
+Add a warning about the possibly problematic use of > when the given
+specifier doesn\(aqt match anything.
+.IP \(bu 2
+Fix an issue where installing from a directory would not copy over certain
+directories which were being excluded, however some build systems rely on
+them.
+.UNINDENT
+.sp
+\fB6.0 (2014\-12\-22)\fP
+.INDENT 0.0
+.IP \(bu 2
+\fBPROCESS\fP Version numbers are now simply \fBX.Y\fP where the leading \fB1\fP
+has been dropped.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Dropped support for Python 3.1.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Removed the bundle support which was deprecated in
+1.4. (\fI\%PR #1806\fP)
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP File lists generated by \fIpip show \-f\fP are now
+rooted at the location reported by show, rather than one (unstated)
+directory lower. (\fI\%PR #1933\fP)
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP The ability to install files over the FTP protocol
+was accidentally lost in pip 1.5 and it has now been decided to not restore
+that ability.
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP PEP 440 is now fully implemented, this means that
+in some cases versions will sort differently or version specifiers will be
+interpreted differently than previously. The common cases should all function
+similarly to before.
+.IP \(bu 2
+\fBDEPRECATION\fP \fBpip install \-\-download\-cache\fP and
+\fBpip wheel \-\-download\-cache\fP command line flags have been deprecated and
+the functionality removed. Since pip now automatically configures and uses
+it\(aqs internal HTTP cache which supplants the \fB\-\-download\-cache\fP the
+existing options have been made non functional but will still be accepted
+until their removal in pip v8.0. For more information please see
+\fI\%https://pip.pypa.io/en/stable/reference/pip_install.html#caching\fP
+.IP \(bu 2
+\fBDEPRECATION\fP \fBpip install \-\-build\fP and \fBpip install \-\-no\-clean\fP are now
+\fINOT\fP deprecated.  This reverses the deprecation that occurred in v1.5.3. See
+\fI\%#906\fP for discussion.
+.IP \(bu 2
+\fBDEPRECATION\fP Implicitly accessing URLs which point to an origin which is
+not a secure origin, instead requiring an opt\-in for each host using the new
+\fB\-\-trusted\-host\fP flag (\fBpip install \-\-trusted\-host example.com foo\fP).
+.IP \(bu 2
+Allow the new \fB\-\-trusted\-host\fP flag to also disable TLS verification for
+a particular hostname.
+.IP \(bu 2
+Added a \fB\-\-user\fP flag to \fBpip freeze\fP and \fBpip list\fP to check the
+user site directory only.
+.IP \(bu 2
+Fixed \fI\%#1873\fP\&. Silence byte compile errors when installation succeed.
+.IP \(bu 2
+Added a virtualenv\-specific configuration file. (\fI\%PR #1364\fP)
+.IP \(bu 2
+Added site\-wide configuration files. (\fI\%PR #1978\fP)
+.IP \(bu 2
+Added an automatic check to warn if there is an updated version of pip
+available (\fI\%PR #2049\fP).
+.IP \(bu 2
+\fIwsgiref\fP and \fIargparse\fP (for >py26) are now excluded from \fIpip list\fP and \fIpip
+freeze\fP (\fI\%PR #1606\fP, \fI\%PR #1369\fP)
+.IP \(bu 2
+Fixed \fI\%#1424\fP\&. Add \fB\-\-client\-cert\fP option for SSL client certificates.
+.IP \(bu 2
+Fixed \fI\%#1484\fP\&. \fIpip show \-\-files\fP was broken for wheel installs. (\fI\%PR #1635\fP)
+.IP \(bu 2
+Fixed \fI\%#1641\fP\&. install_lib should take precedence when reading distutils config.
+(\fI\%PR #1642\fP)
+.IP \(bu 2
+Send \fIAccept\-Encoding: identity\fP when downloading files in an attempt to
+convince some servers who double compress the downloaded file to stop doing
+so. (\fI\%PR #1688\fP)
+.IP \(bu 2
+Fixed \fI\%#1559\fP\&. Stop breaking when given pip commands in uppercase (\fI\%PR #1725\fP)
+.IP \(bu 2
+Fixed \fI\%#1618\fP\&. Pip no longer adds duplicate logging consumers, so it
+won\(aqt create duplicate output when being called multiple times. (\fI\%PR #1723\fP)
+.IP \(bu 2
+Fixed \fI\%#1769\fP\&. \fIpip wheel\fP now returns an error code if any wheels
+fail to build.
+.IP \(bu 2
+Fixed \fI\%#1775\fP\&. \fIpip wheel\fP wasn\(aqt building wheels for dependencies of
+editable requirements.
+.IP \(bu 2
+Allow the use of \fB\-\-no\-use\-wheel\fP within a requirements file. (\fI\%PR #1859\fP)
+.IP \(bu 2
+Fixed \fI\%#1680\fP\&. Attempt to locate system TLS certificates to use instead
+of the included CA Bundle if possible. (\fI\%PR #1866\fP)
+.IP \(bu 2
+Fixed \fI\%#1319\fP\&. Allow use of Zip64 extension in Wheels and other zip
+files. (\fI\%PR #1868\fP)
+.IP \(bu 2
+Fixed \fI\%#1101\fP\&. Properly handle an index or \-\-find\-links target which
+has a <base> without a href attribute. (\fI\%PR #1869\fP)
+.IP \(bu 2
+Fixed \fI\%#1885\fP\&. Properly handle extras when a project is installed
+via Wheel. (\fI\%PR #1896\fP)
+.IP \(bu 2
+Fixed \fI\%#1180\fP\&. Added support to respect proxies in \fBpip search\fP\&. It
+also fixes \fI\%#932\fP and \fI\%#1104\fP\&. (\fI\%PR #1902\fP)
+.IP \(bu 2
+Fixed \fI\%#798\fP and \fI\%#1060\fP\&. \fIpip install \-\-download\fP works with vcs links.
+(\fI\%PR #1926\fP)
+.IP \(bu 2
+Fixed \fI\%#1456\fP\&. Disabled warning about insecure index host when using localhost.
+Based off of Guy Rozendorn\(aqs work in \fI\%PR #1718\fP\&. (\fI\%PR #1967\fP)
+.IP \(bu 2
+Allow the use of OS standard user configuration files instead of ones simply
+based around \fB$HOME\fP\&. (\fI\%PR #2021\fP)
+.IP \(bu 2
+Fixed \fI\%#1825\fP\&. When installing directly from wheel paths or urls,
+previous versions were not uninstalled. This also fixes \fI\%#804\fP
+specifically for the case of wheel archives. (\fI\%PR #1838\fP)
+.IP \(bu 2
+Fixed \fI\%#2075\fP, detect the location of the \fB\&.egg\-info\fP directory by
+looking for any file located inside of it instead of relying on the record
+file listing a directory. (\fI\%PR #2076\fP)
+.IP \(bu 2
+Fixed \fI\%#1964\fP, \fI\%#1935\fP, \fI\%#676\fP, Use a randomized and secure
+default build directory when possible. (\fI\%PR #2122\fP, CVE\-2014\-8991)
+.IP \(bu 2
+Fixed \fI\%#1433\fP\&. Support environment markers in requirements.txt files.
+(\fI\%PR #2134\fP)
+.IP \(bu 2
+Automatically retry failed HTTP requests by default. (\fI\%PR #1444\fP, \fI\%PR #2147\fP)
+.IP \(bu 2
+Fixed \fI\%#1100\fP \- Handle HTML Encoding better using a method that is more
+similar to how browsers handle it. (\fI\%PR #1874\fP)
+.IP \(bu 2
+Reduce the verbosity of the pip command by default. (\fI\%PR #2175\fP,
+\fI\%PR #2177\fP, \fI\%PR #2178\fP)
+.IP \(bu 2
+Fixed \fI\%#2031\fP \- Respect sys.executable on OSX when installing from
+Wheels.
+.IP \(bu 2
+Display the entire URL of the file that is being downloaded when downloading
+from a non PyPI repository (\fI\%PR #2183\fP).
+.IP \(bu 2
+Support setuptools style environment markers in a source distribution
+(\fI\%PR #2153\fP).
+.UNINDENT
+.sp
+\fB1.5.6 (2014\-05\-16)\fP
+.INDENT 0.0
+.IP \(bu 2
+Upgrade requests to 2.3.0 to fix an issue with proxies on Python 3.4.1
+(\fI\%PR #1821\fP).
+.UNINDENT
+.sp
+\fB1.5.5 (2014\-05\-03)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixes \fI\%#1632\fP\&.  Uninstall issues on debianized pypy, specifically issues with
+setuptools upgrades. (\fI\%PR #1743\fP)
+.IP \(bu 2
+Update documentation to point at \fI\%https://bootstrap.pypa.io/get\-pip.py\fP for
+bootstrapping pip.
+.IP \(bu 2
+Update docs to point to \fI\%https://pip.pypa.io/\fP
+.IP \(bu 2
+Upgrade the bundled projects (distlib==0.1.8, html5lib==1.0b3, six==1.6.1,
+colorama==0.3.1, setuptools==3.4.4).
+.UNINDENT
+.sp
+\fB1.5.4 (2014\-02\-21)\fP
+.INDENT 0.0
+.IP \(bu 2
+Correct deprecation warning for \fBpip install \-\-build\fP to only notify when
+the \fI\-\-build\fP value is different than the default.
+.UNINDENT
+.sp
+\fB1.5.3 (2014\-02\-20)\fP
+.INDENT 0.0
+.IP \(bu 2
+\fBDEPRECATION\fP \fBpip install \-\-build\fP and \fBpip install \-\-no\-clean\fP are now
+deprecated.  See \fI\%#906\fP for discussion.
+.IP \(bu 2
+Fixed \fI\%#1112\fP\&. Couldn\(aqt download directly from wheel paths/urls, and when wheel
+downloads did occur using requirement specifiers, dependencies weren\(aqt
+downloaded (\fI\%PR #1527\fP)
+.IP \(bu 2
+Fixed \fI\%#1320\fP\&. \fBpip wheel\fP was not downloading wheels that already existed (PR
+\fI\%#1524\fP)
+.IP \(bu 2
+Fixed \fI\%#1111\fP\&. \fBpip install \-\-download\fP was failing using local
+\fB\-\-find\-links\fP (\fI\%PR #1524\fP)
+.IP \(bu 2
+Workaround for Python bug \fI\%http://bugs.python.org/issue20053\fP (\fI\%PR #1544\fP)
+.IP \(bu 2
+Don\(aqt pass a unicode __file__ to setup.py on Python 2.x (\fI\%PR #1583\fP)
+.IP \(bu 2
+Verify that the Wheel version is compatible with this pip (\fI\%PR #1569\fP)
+.UNINDENT
+.sp
+\fB1.5.2 (2014\-01\-26)\fP
+.INDENT 0.0
+.IP \(bu 2
+Upgraded the vendored \fBpkg_resources\fP and \fB_markerlib\fP to setuptools 2.1.
+.IP \(bu 2
+Fixed an error that prevented accessing PyPI when pyopenssl, ndg\-httpsclient,
+and pyasn1 are installed
+.IP \(bu 2
+Fixed an issue that caused trailing comments to be incorrectly included as
+part of the URL in a requirements file
+.UNINDENT
+.sp
+\fB1.5.1 (2014\-01\-20)\fP
+.INDENT 0.0
+.IP \(bu 2
+pip now only requires setuptools (any setuptools, not a certain version) when
+installing distributions from src (i.e. not from wheel). (\fI\%PR #1434\fP).
+.IP \(bu 2
+\fIget\-pip.py\fP now installs setuptools, when it\(aqs not already installed
+(\fI\%PR #1475\fP)
+.IP \(bu 2
+Don\(aqt decode downloaded files that have a \fBContent\-Encoding\fP header.
+(\fI\%PR #1435\fP)
+.IP \(bu 2
+Fix to correctly parse wheel filenames with single digit versions.
+(\fI\%PR #1445\fP)
+.IP \(bu 2
+If \fI\-\-allow\-unverified\fP is used assume it also means \fI\-\-allow\-external\fP\&.
+(\fI\%PR #1457\fP)
+.UNINDENT
+.sp
+\fB1.5 (2014\-01\-01)\fP
+.INDENT 0.0
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP pip no longer supports the \fB\-\-use\-mirrors\fP,
+\fB\-M\fP, and \fB\-\-mirrors\fP flags. The mirroring support has been removed. In
+order to use a mirror specify it as the primary index with \fB\-i\fP or
+\fB\-\-index\-url\fP, or as an additional index with \fB\-\-extra\-index\-url\fP\&. (\fI\%PR #1098\fP, CVE\-2013\-5123)
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP pip no longer will scrape insecure external urls by
+default nor will it install externally hosted files by default. Users may opt
+into installing externally hosted or insecure files or urls using
+\fB\-\-allow\-external PROJECT\fP and \fB\-\-allow\-unverified PROJECT\fP\&. (\fI\%PR #1055\fP)
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP pip no longer respects dependency links by default.
+Users may opt into respecting them again using \fB\-\-process\-dependency\-links\fP\&.
+.IP \(bu 2
+\fBDEPRECATION\fP \fBpip install \-\-no\-install\fP and \fBpip install
+\-\-no\-download\fP are now formally deprecated.  See \fI\%#906\fP for discussion on
+possible alternatives, or lack thereof, in future releases.
+.IP \(bu 2
+\fBDEPRECATION\fP \fBpip zip\fP and \fBpip unzip\fP are now formally deprecated.
+.IP \(bu 2
+pip will now install Mac OSX platform wheels from PyPI. (\fI\%PR #1278\fP)
+.IP \(bu 2
+pip now generates the appropriate platform\-specific console scripts when
+installing wheels. (\fI\%PR #1251\fP)
+.IP \(bu 2
+Pip now confirms a wheel is supported when installing directly from a path or
+url. (\fI\%PR #1315\fP)
+.IP \(bu 2
+Fixed \fI\%#1097\fP, \fB\-\-ignore\-installed\fP now behaves again as designed, after it was
+unintentionally broke in v0.8.3 when fixing \fI\%#14\fP (\fI\%PR #1352\fP).
+.IP \(bu 2
+Fixed a bug where global scripts were being removed when uninstalling \-\-user
+installed packages (\fI\%PR #1353\fP).
+.IP \(bu 2
+Fixed \fI\%#1163\fP, \-\-user wasn\(aqt being respected when installing scripts from wheels (\fI\%PR #1176\fP).
+.IP \(bu 2
+Fixed \fI\%#1150\fP, we now assume \(aq_\(aq means \(aq\-\(aq in versions from wheel filenames (\fI\%PR #1158\fP).
+.IP \(bu 2
+Fixed \fI\%#219\fP, error when using \-\-log with a failed install (\fI\%PR #1205\fP).
+.IP \(bu 2
+Fixed \fI\%#1131\fP, logging was buffered and choppy in Python 3.
+.IP \(bu 2
+Fixed \fI\%#70\fP,  \-\-timeout was being ignored (\fI\%PR #1202\fP).
+.IP \(bu 2
+Fixed \fI\%#772\fP, error when setting PIP_EXISTS_ACTION (\fI\%PR #1201\fP).
+.IP \(bu 2
+Added colors to the logging output in order to draw attention to important
+warnings and errors. (\fI\%PR #1109\fP)
+.IP \(bu 2
+Added warnings when using an insecure index, find\-link, or dependency link. (\fI\%PR #1121\fP)
+.IP \(bu 2
+Added support for installing packages from a subdirectory using the \fBsubdirectory\fP
+editable option. ( \fI\%PR #1082\fP )
+.IP \(bu 2
+Fixed \fI\%#1192\fP\&. "TypeError: bad operand type for unary" in some cases when
+installing wheels using \-\-find\-links (\fI\%PR #1218\fP).
+.IP \(bu 2
+Fixed \fI\%#1133\fP and \fI\%#317\fP\&. Archive contents are now written based on system
+defaults and umask (i.e. permissions are not preserved), except that regular
+files with any execute permissions have the equivalent of "chmod +x" applied
+after being written (\fI\%PR #1146\fP).
+.IP \(bu 2
+PreviousBuildDirError now returns a non\-zero exit code and prevents the
+previous build dir from being cleaned in all cases (\fI\%PR #1162\fP).
+.IP \(bu 2
+Renamed \-\-allow\-insecure to \-\-allow\-unverified, however the old name will
+continue to work for a period of time (\fI\%PR #1257\fP).
+.IP \(bu 2
+Fixed \fI\%#1006\fP, error when installing local projects with symlinks in
+Python 3. (\fI\%PR #1311\fP)
+.IP \(bu 2
+The previously hidden \fB\-\-log\-file\fP option, is now shown as a general option.
+(\fI\%PR #1316\fP)
+.UNINDENT
+.sp
+\fB1.4.1 (2013\-08\-07)\fP
+.INDENT 0.0
+.IP \(bu 2
+\fBNew Signing Key\fP Release 1.4.1 is using a different key than normal with
+fingerprint: 7C6B 7C5D 5E2B 6356 A926 F04F 6E3C BCE9 3372 DCFA
+.IP \(bu 2
+Fixed issues with installing from pybundle files (\fI\%PR #1116\fP).
+.IP \(bu 2
+Fixed error when sysconfig module throws an exception (\fI\%PR #1095\fP).
+.IP \(bu 2
+Don\(aqt ignore already installed pre\-releases (\fI\%PR #1076\fP).
+.IP \(bu 2
+Fixes related to upgrading setuptools (\fI\%PR #1092\fP).
+.IP \(bu 2
+Fixes so that \-\-download works with wheel archives (\fI\%PR #1113\fP).
+.IP \(bu 2
+Fixes related to recognizing and cleaning global build dirs (\fI\%PR #1080\fP).
+.UNINDENT
+.sp
+\fB1.4 (2013\-07\-23)\fP
+.INDENT 0.0
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP pip now only installs stable versions by default,
+and offers a new \fB\-\-pre\fP option to also find pre\-release and development
+versions. (\fI\%PR #834\fP)
+.IP \(bu 2
+\fBBACKWARD INCOMPATIBLE\fP Dropped support for Python 2.5. The minimum
+supported Python version for pip 1.4 is Python 2.6.
+.IP \(bu 2
+Added support for installing and building wheel archives.
+Thanks Daniel Holth, Marcus Smith, Paul Moore, and Michele Lacchia
+(\fI\%PR #845\fP)
+.IP \(bu 2
+Applied security patch to pip\(aqs ssl support related to certificate DNS
+wildcard matching (\fI\%http://bugs.python.org/issue17980\fP).
+.IP \(bu 2
+To satisfy pip\(aqs setuptools requirement, pip now recommends setuptools>=0.8,
+not distribute. setuptools and distribute are now merged into one project
+called \(aqsetuptools\(aq. (\fI\%PR #1003\fP)
+.IP \(bu 2
+pip will now warn when installing a file that is either hosted externally to
+the index or cannot be verified with a hash. In the future pip will default
+to not installing them and will require the flags \-\-allow\-external NAME, and
+\-\-allow\-insecure NAME respectively. (\fI\%PR #985\fP)
+.IP \(bu 2
+If an already\-downloaded or cached file has a bad hash, re\-download it rather
+than erroring out. (\fI\%#963\fP).
+.IP \(bu 2
+\fBpip bundle\fP and support for installing from pybundle files is now
+considered deprecated and will be removed in pip v1.5.
+.IP \(bu 2
+Fixed a number of issues (\fI\%#413\fP, \fI\%#709\fP, \fI\%#634\fP, \fI\%#602\fP, and \fI\%#939\fP) related to
+cleaning up and not reusing build directories. (\fI\%PR #865\fP, \fI\%#948\fP)
+.IP \(bu 2
+Added a User Agent so that pip is identifiable in logs. (\fI\%PR #901\fP)
+.IP \(bu 2
+Added ssl and \-\-user support to get\-pip.py. Thanks Gabriel de Perthuis.
+(\fI\%PR #895\fP)
+.IP \(bu 2
+Fixed the proxy support, which was broken in pip 1.3.x (\fI\%PR #840\fP)
+.IP \(bu 2
+Fixed \fI\%#32\fP \- pip fails when server does not send content\-type header.
+Thanks Hugo Lopes Tavares and Kelsey Hightower (\fI\%PR #872\fP).
+.IP \(bu 2
+"Vendorized" distlib as pip.vendor.distlib (\fI\%https://distlib.readthedocs.io/\fP).
+.IP \(bu 2
+Fixed git VCS backend with git 1.8.3. (\fI\%PR #967\fP)
+.UNINDENT
+.sp
+\fB1.3.1 (2013\-03\-08)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed a major backward incompatible change of parsing URLs to externally
+hosted packages that got accidentally included in 1.3.
+.UNINDENT
+.sp
+\fB1.3 (2013\-03\-07)\fP
+.INDENT 0.0
+.IP \(bu 2
+SSL Cert Verification; Make https the default for PyPI access.
+Thanks James Cleveland, Giovanni Bajo, Marcus Smith and many others (\fI\%PR #791\fP, CVE\-2013\-1629).
+.IP \(bu 2
+Added "pip list" for listing installed packages and the latest version
+available. Thanks Rafael Caricio, Miguel Araujo, Dmitry Gladkov (\fI\%PR #752\fP)
+.IP \(bu 2
+Fixed security issues with pip\(aqs use of temp build directories.
+Thanks David (d1b) and Thomas Guttler. (\fI\%PR #780\fP, CVE\-2013\-1888)
+.IP \(bu 2
+Improvements to sphinx docs and cli help. (\fI\%PR #773\fP)
+.IP \(bu 2
+Fixed \fI\%#707\fP, dealing with macOS temp dir handling, which was causing
+global NumPy installs to fail. (\fI\%PR #768\fP)
+.IP \(bu 2
+Split help output into general vs command\-specific option groups.
+Thanks Georgi Valkov. (\fI\%PR #744\fP; \fI\%PR #721\fP contains preceding refactor)
+.IP \(bu 2
+Fixed dependency resolution when installing from archives with uppercase
+project names. (\fI\%PR #724\fP)
+.IP \(bu 2
+Fixed problem where re\-installs always occurred when using \fI\%file://\fP find\-links.
+(Pulls \fI\%#683\fP/\fI\%#702\fP)
+.IP \(bu 2
+"pip install \-v" now shows the full download url, not just the archive name.
+Thanks Marc Abramowitz (\fI\%PR #687\fP)
+.IP \(bu 2
+Fix to prevent unnecessary PyPI redirects. Thanks Alex Gronholm (\fI\%PR #695\fP)
+.IP \(bu 2
+Fixed \fI\%#670\fP \- install failure under Python 3 when the same version
+of a package is found under 2 different URLs.  Thanks Paul Moore (\fI\%PR #671\fP)
+.IP \(bu 2
+Fix git submodule recursive updates.  Thanks Roey Berman. (Pulls \fI\%#674\fP)
+.IP \(bu 2
+Explicitly ignore rel=\(aqdownload\(aq links while looking for html pages.
+Thanks Maxime R. (\fI\%PR #677\fP)
+.IP \(bu 2
+\-\-user/\-\-upgrade install options now work together. Thanks \(aqeevee\(aq for
+discovering the problem. (\fI\%PR #705\fP)
+.IP \(bu 2
+Added check in \fBinstall \-\-download\fP to prevent re\-downloading if the target
+file already exists. Thanks Andrey Bulgakov. (\fI\%PR #669\fP)
+.IP \(bu 2
+Added support for bare paths (including relative paths) as argument to
+\fI\-\-find\-links\fP\&. Thanks Paul Moore for draft patch.
+.IP \(bu 2
+Added support for \-\-no\-index in requirements files.
+.IP \(bu 2
+Added "pip show" command to get information about an installed package.
+Fixes \fI\%#131\fP\&. Thanks Kelsey Hightower and Rafael Caricio.
+.IP \(bu 2
+Added \fI\-\-root\fP option for "pip install" to specify root directory. Behaves
+like the same option in distutils but also plays nice with pip\(aqs egg\-info.
+Thanks Przemek Wrzos.  (\fI\%#253\fP / \fI\%PR #693\fP)
+.UNINDENT
+.sp
+\fB1.2.1 (2012\-09\-06)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed a regression introduced in 1.2 about raising an exception when
+not finding any files to uninstall in the current environment. Thanks for
+the fix, Marcus Smith.
+.UNINDENT
+.sp
+\fB1.2 (2012\-09\-01)\fP
+.INDENT 0.0
+.IP \(bu 2
+\fBDropped support for Python 2.4\fP The minimum supported Python version is
+now Python 2.5.
+.IP \(bu 2
+Fixed \fI\%#605\fP \- pypi mirror support broken on some DNS responses. Thanks
+philwhin.
+.IP \(bu 2
+Fixed \fI\%#355\fP \- pip uninstall removes files it didn\(aqt install. Thanks
+pjdelport.
+.IP \(bu 2
+Fixed issues \fI\%#493\fP, \fI\%#494\fP, \fI\%#440\fP, and \fI\%#573\fP related to improving support for the
+user installation scheme. Thanks Marcus Smith.
+.IP \(bu 2
+Write failure log to temp file if default location is not writable. Thanks
+andreigc.
+.IP \(bu 2
+Pull in submodules for git editable checkouts. Fixes \fI\%#289\fP and \fI\%#421\fP\&. Thanks
+Hsiaoming Yang and Markus Hametner.
+.IP \(bu 2
+Use a temporary directory as the default build location outside of a
+virtualenv. Fixes issues \fI\%#339\fP and \fI\%#381\fP\&. Thanks Ben Rosser.
+.IP \(bu 2
+Added support for specifying extras with local editables. Thanks Nick
+Stenning.
+.IP \(bu 2
+Added \fB\-\-egg\fP flag to request egg\-style rather than flat installation. Refs
+\fI\%#3\fP\&. Thanks Kamal Bin Mustafa.
+.IP \(bu 2
+Fixed \fI\%#510\fP \- prevent e.g. \fBgmpy2\-2.0.tar.gz\fP from matching a request
+to \fBpip install gmpy\fP; sdist filename must begin with full project name
+followed by a dash. Thanks casevh for the report.
+.IP \(bu 2
+Fixed \fI\%#504\fP \- allow package URLS to have querystrings. Thanks W.
+Trevor King.
+.IP \(bu 2
+Fixed \fI\%#58\fP \- pip freeze now falls back to non\-editable format rather
+than blowing up if it can\(aqt determine the origin repository of an editable.
+Thanks Rory McCann.
+.IP \(bu 2
+Added a \fI__main__.py\fP file to enable \fIpython \-m pip\fP on Python versions
+that support it. Thanks Alexey Luchko.
+.IP \(bu 2
+Fixed \fI\%#487\fP \- upgrade from VCS url of project that does exist on
+index. Thanks Andrew Knapp for the report.
+.IP \(bu 2
+Fixed \fI\%#486\fP \- fix upgrade from VCS url of project with no distribution
+on index.  Thanks Andrew Knapp for the report.
+.IP \(bu 2
+Fixed \fI\%#427\fP \- clearer error message on a malformed VCS url. Thanks
+Thomas Fenzl.
+.IP \(bu 2
+Added support for using any of the built in guaranteed algorithms in
+\fBhashlib\fP as a checksum hash.
+.IP \(bu 2
+Fixed \fI\%#321\fP \- Raise an exception if current working directory can\(aqt be
+found or accessed.
+.IP \(bu 2
+Fixed \fI\%#82\fP \- Removed special casing of the user directory and use the
+Python default instead.
+.IP \(bu 2
+Fixed \fI\%#436\fP \- Only warn about version conflicts if there is actually one.
+This re\-enables using \fB==dev\fP in requirements files.
+.IP \(bu 2
+Moved tests to be run on Travis CI: \fI\%http://travis\-ci.org/pypa/pip\fP
+.IP \(bu 2
+Added a better help formatter.
+.UNINDENT
+.sp
+\fB1.1 (2012\-02\-16)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed \fI\%#326\fP \- don\(aqt crash when a package\(aqs setup.py emits UTF\-8 and
+then fails. Thanks Marc Abramowitz.
+.IP \(bu 2
+Added \fB\-\-target\fP option for installing directly to arbitrary directory.
+Thanks Stavros Korokithakis.
+.IP \(bu 2
+Added support for authentication with Subversion repositories. Thanks
+Qiangning Hong.
+.IP \(bu 2
+Fixed \fI\%#315\fP \- \fB\-\-download\fP now downloads dependencies as well.
+Thanks Qiangning Hong.
+.IP \(bu 2
+Errors from subprocesses will display the current working directory.
+Thanks Antti Kaihola.
+.IP \(bu 2
+Fixed \fI\%#369\fP \- compatibility with Subversion 1.7. Thanks Qiangning
+Hong. Note that setuptools remains incompatible with Subversion 1.7; to
+get the benefits of pip\(aqs support you must use Distribute rather than
+setuptools.
+.IP \(bu 2
+Fixed \fI\%#57\fP \- ignore py2app\-generated macOS mpkg zip files in finder.
+Thanks Rene Dudfield.
+.IP \(bu 2
+Fixed \fI\%#182\fP \- log to ~/Library/Logs/ by default on macOS framework
+installs. Thanks Dan Callahan for report and patch.
+.IP \(bu 2
+Fixed \fI\%#310\fP \- understand version tags without minor version ("py3")
+in sdist filenames. Thanks Stuart Andrews for report and Olivier Girardot for
+patch.
+.IP \(bu 2
+Fixed \fI\%#7\fP \- Pip now supports optionally installing setuptools
+"extras" dependencies; e.g. "pip install Paste[openid]". Thanks Matt Maker
+and Olivier Girardot.
+.IP \(bu 2
+Fixed \fI\%#391\fP \- freeze no longer borks on requirements files with
+\-\-index\-url or \-\-find\-links. Thanks Herbert Pfennig.
+.IP \(bu 2
+Fixed \fI\%#288\fP \- handle symlinks properly. Thanks lebedov for the patch.
+.IP \(bu 2
+Fixed \fI\%#49\fP \- pip install \-U no longer reinstalls the same versions of
+packages. Thanks iguananaut for the pull request.
+.IP \(bu 2
+Removed \fB\-E\fP/\fB\-\-environment\fP option and \fBPIP_RESPECT_VIRTUALENV\fP;
+both use a restart\-in\-venv mechanism that\(aqs broken, and neither one is
+useful since every virtualenv now has pip inside it.  Replace \fBpip \-E
+path/to/venv install Foo\fP with \fBvirtualenv path/to/venv &&
+path/to/venv/pip install Foo\fP\&.
+.IP \(bu 2
+Fixed \fI\%#366\fP \- pip throws IndexError when it calls \fIscraped_rel_links\fP
+.IP \(bu 2
+Fixed \fI\%#22\fP \- pip search should set and return a useful shell status code
+.IP \(bu 2
+Fixed \fI\%#351\fP and \fI\%#365\fP \- added global \fB\-\-exists\-action\fP command line
+option to easier script file exists conflicts, e.g. from editable
+requirements from VCS that have a changed repo URL.
+.UNINDENT
+.sp
+\fB1.0.2 (2011\-07\-16)\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed docs issues.
+.IP \(bu 2
+Fixed \fI\%#295\fP \- Reinstall a package when using the \fBinstall \-I\fP option
+.IP \(bu 2
+Fixed \fI\%#283\fP \- Finds a Git tag pointing to same commit as origin/master
+.IP \(bu 2
+Fixed \fI\%#279\fP \- Use absolute path for path to docs in setup.py
+.IP \(bu 2
+Fixed \fI\%#314\fP \- Correctly handle exceptions on Python3.
+.IP \(bu 2
+Fixed \fI\%#320\fP \- Correctly parse \fB\-\-editable\fP lines in requirements files
+.UNINDENT
+.sp
+\fB1.0.1 (2011\-04\-30)\fP
+.INDENT 0.0
+.IP \(bu 2
+Start to use git\-flow.
+.IP \(bu 2
+Fixed \fI\%#274\fP \- \fIfind_command\fP should not raise AttributeError
+.IP \(bu 2
+Fixed \fI\%#273\fP \- respect Content\-Disposition header. Thanks Bradley Ayers.
+.IP \(bu 2
+Fixed \fI\%#233\fP \- pathext handling on Windows.
+.IP \(bu 2
+Fixed \fI\%#252\fP \- svn+svn protocol.
+.IP \(bu 2
+Fixed \fI\%#44\fP \- multiple CLI searches.
+.IP \(bu 2
+Fixed \fI\%#266\fP \- current working directory when running setup.py clean.
+.UNINDENT
+.sp
+\fB1.0 (2011\-04\-04)\fP
+.INDENT 0.0
+.IP \(bu 2
+Added Python 3 support! Huge thanks to Vinay Sajip, Vitaly Babiy, Kelsey
+Hightower, and Alex Gronholm, among others.
+.IP \(bu 2
+Download progress only shown on a real TTY. Thanks Alex Morega.
+.IP \(bu 2
+Fixed finding of VCS binaries to not be fooled by same\-named directories.
+Thanks Alex Morega.
+.IP \(bu 2
+Fixed uninstall of packages from system Python for users of Debian/Ubuntu
+python\-setuptools package (workaround until fixed in Debian and Ubuntu).
+.IP \(bu 2
+Added \fI\%get\-pip.py\fP
+installer. Simply download and execute it, using the Python interpreter of
+your choice:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ curl \-O https://raw.github.com/pypa/pip/master/contrib/get\-pip.py
+$ python get\-pip.py
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This may have to be run as root.
+.sp
+\fBNOTE:\fP
+.INDENT 2.0
+.INDENT 3.5
+Make sure you have \fI\%distribute\fP
+installed before using the installer!
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+\fB0.8.3\fP
+.INDENT 0.0
+.IP \(bu 2
+Moved main repository to Github: \fI\%https://github.com/pypa/pip\fP
+.IP \(bu 2
+Transferred primary maintenance from Ian to Jannis Leidel, Carl Meyer, Brian Rosner
+.IP \(bu 2
+Fixed \fI\%#14\fP \- No uninstall\-on\-upgrade with URL package. Thanks Oliver Tonnhofer
+.IP \(bu 2
+Fixed \fI\%#163\fP \- Egg name not properly resolved. Thanks Igor Sobreira
+.IP \(bu 2
+Fixed \fI\%#178\fP \- Non\-alphabetical installation of requirements. Thanks Igor Sobreira
+.IP \(bu 2
+Fixed \fI\%#199\fP \- Documentation mentions \-\-index instead of \-\-index\-url. Thanks Kelsey Hightower
+.IP \(bu 2
+Fixed \fI\%#204\fP \- rmtree undefined in mercurial.py. Thanks Kelsey Hightower
+.IP \(bu 2
+Fixed bug in Git vcs backend that would break during reinstallation.
+.IP \(bu 2
+Fixed bug in Mercurial vcs backend related to pip freeze and branch/tag resolution.
+.IP \(bu 2
+Fixed bug in version string parsing related to the suffix "\-dev".
+.UNINDENT
+.sp
+\fB0.8.2\fP
+.INDENT 0.0
+.IP \(bu 2
+Avoid redundant unpacking of bundles (from pwaller)
+.IP \(bu 2
+Fixed \fI\%#32\fP, \fI\%#150\fP, \fI\%#161\fP \- Fixed checking out the correct
+tag/branch/commit when updating an editable Git requirement.
+.IP \(bu 2
+Fixed \fI\%#49\fP \- Added ability to install version control requirements
+without making them editable, e.g.:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+pip install git+https://github.com/pypa/pip/
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.IP \(bu 2
+Fixed \fI\%#175\fP \- Correctly locate build and source directory on macOS.
+.IP \(bu 2
+Added \fBgit+https://\fP scheme to Git VCS backend.
+.UNINDENT
+.sp
+\fB0.8.1\fP
+.INDENT 0.0
+.IP \(bu 2
+Added global \-\-user flag as shortcut for \-\-install\-option="\-\-user". From
+Ronny Pfannschmidt.
+.IP \(bu 2
+Added support for \fI\%PyPI mirrors\fP as
+defined in \fI\%PEP 381\fP, from
+Jannis Leidel.
+.IP \(bu 2
+Fixed \fI\%#138\fP \- Git revisions ignored. Thanks John\-Scott Atlakson.
+.IP \(bu 2
+Fixed \fI\%#95\fP \- Initial editable install of github package from a tag fails. Thanks John\-Scott Atlakson.
+.IP \(bu 2
+Fixed \fI\%#107\fP \- Can\(aqt install if a directory in cwd has the same name as the package you\(aqre installing.
+.IP \(bu 2
+Fixed \fI\%#39\fP \- \-\-install\-option="\-\-prefix=~/.local" ignored with \-e.
+Thanks Ronny Pfannschmidt and Wil Tan.
+.UNINDENT
+.sp
+\fB0.8\fP
+.INDENT 0.0
+.IP \(bu 2
+Track which \fBbuild/\fP directories pip creates, never remove directories
+it doesn\(aqt create.  From Hugo Lopes Tavares.
+.IP \(bu 2
+Pip now accepts \fI\%file://\fP index URLs. Thanks Dave Abrahams.
+.IP \(bu 2
+Various cleanup to make test\-running more consistent and less fragile.
+Thanks Dave Abrahams.
+.IP \(bu 2
+Real Windows support (with passing tests). Thanks Dave Abrahams.
+.IP \(bu 2
+\fBpip\-2.7\fP etc. scripts are created (Python\-version specific scripts)
+.IP \(bu 2
+\fBcontrib/build\-standalone\fP script creates a runnable \fB\&.zip\fP form of
+pip, from Jannis Leidel
+.IP \(bu 2
+Editable git repos are updated when reinstalled
+.IP \(bu 2
+Fix problem with \fB\-\-editable\fP when multiple \fB\&.egg\-info/\fP directories
+are found.
+.IP \(bu 2
+A number of VCS\-related fixes for \fBpip freeze\fP, from Hugo Lopes Tavares.
+.IP \(bu 2
+Significant test framework changes, from Hugo Lopes Tavares.
+.UNINDENT
+.sp
+\fB0.7.2\fP
+.INDENT 0.0
+.IP \(bu 2
+Set zip_safe=False to avoid problems some people are encountering where
+pip is installed as a zip file.
+.UNINDENT
+.sp
+\fB0.7.1\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed opening of logfile with no directory name. Thanks Alexandre Conrad.
+.IP \(bu 2
+Temporary files are consistently cleaned up, especially after
+installing bundles, also from Alex Conrad.
+.IP \(bu 2
+Tests now require at least ScriptTest 1.0.3.
+.UNINDENT
+.sp
+\fB0.7\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed uninstallation on Windows
+.IP \(bu 2
+Added \fBpip search\fP command.
+.IP \(bu 2
+Tab\-complete names of installed distributions for \fBpip uninstall\fP\&.
+.IP \(bu 2
+Support tab\-completion when there is a global\-option before the
+subcommand.
+.IP \(bu 2
+Install header files in standard (scheme\-default) location when installing
+outside a virtualenv. Install them to a slightly more consistent
+non\-standard location inside a virtualenv (since the standard location is
+a non\-writable symlink to the global location).
+.IP \(bu 2
+pip now logs to a central location by default (instead of creating
+\fBpip\-log.txt\fP all over the place) and constantly overwrites the
+file in question. On Unix and macOS this is \fB\(aq$HOME/.pip/pip.log\(aq\fP
+and on Windows it\(aqs \fB\(aq%HOME%\e\epip\e\epip.log\(aq\fP\&. You are still able to
+override this location with the \fB$PIP_LOG_FILE\fP environment variable.
+For a complete (appended) logfile use the separate \fB\(aq\-\-log\(aq\fP command line
+option.
+.IP \(bu 2
+Fixed an issue with Git that left an editable package as a checkout of a
+remote branch, even if the default behaviour would have been fine, too.
+.IP \(bu 2
+Fixed installing from a Git tag with older versions of Git.
+.IP \(bu 2
+Expand "~" in logfile and download cache paths.
+.IP \(bu 2
+Speed up installing from Mercurial repositories by cloning without
+updating the working copy multiple times.
+.IP \(bu 2
+Fixed installing directly from directories (e.g.
+\fBpip install path/to/dir/\fP).
+.IP \(bu 2
+Fixed installing editable packages with \fBsvn+ssh\fP URLs.
+.IP \(bu 2
+Don\(aqt print unwanted debug information when running the freeze command.
+.IP \(bu 2
+Create log file directory automatically. Thanks Alexandre Conrad.
+.IP \(bu 2
+Make test suite easier to run successfully. Thanks Dave Abrahams.
+.IP \(bu 2
+Fixed "pip install ." and "pip install .."; better error for directory
+without setup.py. Thanks Alexandre Conrad.
+.IP \(bu 2
+Support Debian/Ubuntu "dist\-packages" in zip command. Thanks duckx.
+.IP \(bu 2
+Fix relative \-\-src folder. Thanks Simon Cross.
+.IP \(bu 2
+Handle missing VCS with an error message. Thanks Alexandre Conrad.
+.IP \(bu 2
+Added \-\-no\-download option to install; pairs with \-\-no\-install to separate
+download and installation into two steps. Thanks Simon Cross.
+.IP \(bu 2
+Fix uninstalling from requirements file containing \-f, \-i, or
+\-\-extra\-index\-url.
+.IP \(bu 2
+Leftover build directories are now removed. Thanks Alexandre Conrad.
+.UNINDENT
+.sp
+\fB0.6.3\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed import error on Windows with regard to the backwards compatibility
+package
+.UNINDENT
+.sp
+\fB0.6.2\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed uninstall when /tmp is on a different filesystem.
+.IP \(bu 2
+Fixed uninstallation of distributions with namespace packages.
+.UNINDENT
+.sp
+\fB0.6.1\fP
+.INDENT 0.0
+.IP \(bu 2
+Added support for the \fBhttps\fP and \fBhttp\-static\fP schemes to the
+Mercurial and \fBftp\fP scheme to the Bazaar backend.
+.IP \(bu 2
+Fixed uninstallation of scripts installed with easy_install.
+.IP \(bu 2
+Fixed an issue in the package finder that could result in an
+infinite loop while looking for links.
+.IP \(bu 2
+Fixed issue with \fBpip bundle\fP and local files (which weren\(aqt being
+copied into the bundle), from Whit Morriss.
+.UNINDENT
+.sp
+\fB0.6\fP
+.INDENT 0.0
+.IP \(bu 2
+Add \fBpip uninstall\fP and uninstall\-before upgrade (from Carl
+Meyer).
+.IP \(bu 2
+Extended configurability with config files and environment variables.
+.IP \(bu 2
+Allow packages to be upgraded, e.g., \fBpip install Package==0.1\fP
+then \fBpip install Package==0.2\fP\&.
+.IP \(bu 2
+Allow installing/upgrading to Package==dev (fix "Source version does not
+match target version" errors).
+.IP \(bu 2
+Added command and option completion for bash and zsh.
+.IP \(bu 2
+Extended integration with virtualenv by providing an option to
+automatically use an active virtualenv and an option to warn if no active
+virtualenv is found.
+.IP \(bu 2
+Fixed a bug with pip install \-\-download and editable packages, where
+directories were being set with 0000 permissions, now defaults to 755.
+.IP \(bu 2
+Fixed uninstallation of easy_installed console_scripts.
+.IP \(bu 2
+Fixed uninstallation on macOS Framework layout installs
+.IP \(bu 2
+Fixed bug preventing uninstall of editables with source outside venv.
+.IP \(bu 2
+Creates download cache directory if not existing.
+.UNINDENT
+.sp
+\fB0.5.1\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed a couple little bugs, with git and with extensions.
+.UNINDENT
+.sp
+\fB0.5\fP
+.INDENT 0.0
+.IP \(bu 2
+Added ability to override the default log file name (\fBpip\-log.txt\fP)
+with the environmental variable \fB$PIP_LOG_FILE\fP\&.
+.IP \(bu 2
+Made the freeze command print installed packages to stdout instead of
+writing them to a file. Use simple redirection (e.g.
+\fBpip freeze > stable\-req.txt\fP) to get a file with requirements.
+.IP \(bu 2
+Fixed problem with freezing editable packages from a Git repository.
+.IP \(bu 2
+Added support for base URLs using \fB<base href=\(aq...\(aq>\fP when parsing
+HTML pages.
+.IP \(bu 2
+Fixed installing of non\-editable packages from version control systems.
+.IP \(bu 2
+Fixed issue with Bazaar\(aqs bzr+ssh scheme.
+.IP \(bu 2
+Added \-\-download\-dir option to the install command to retrieve package
+archives. If given an editable package it will create an archive of it.
+.IP \(bu 2
+Added ability to pass local file and directory paths to \fB\-\-find\-links\fP,
+e.g. \fB\-\-find\-links=file:///path/to/my/private/archive\fP
+.IP \(bu 2
+Reduced the amount of console log messages when fetching a page to find a
+distribution was problematic. The full messages can be found in pip\-log.txt.
+.IP \(bu 2
+Added \fB\-\-no\-deps\fP option to install ignore package dependencies
+.IP \(bu 2
+Added \fB\-\-no\-index\fP option to ignore the package index (PyPI) temporarily
+.IP \(bu 2
+Fixed installing editable packages from Git branches.
+.IP \(bu 2
+Fixes freezing of editable packages from Mercurial repositories.
+.IP \(bu 2
+Fixed handling read\-only attributes of build files, e.g. of Subversion and
+Bazaar on Windows.
+.IP \(bu 2
+When downloading a file from a redirect, use the redirected
+location\(aqs extension to guess the compression (happens specifically
+when redirecting to a bitbucket.org tip.gz file).
+.IP \(bu 2
+Editable freeze URLs now always use revision hash/id rather than tip or
+branch names which could move.
+.IP \(bu 2
+Fixed comparison of repo URLs so incidental differences such as
+presence/absence of final slashes or quoted/unquoted special
+characters don\(aqt trigger "ignore/switch/wipe/backup" choice.
+.IP \(bu 2
+Fixed handling of attempt to checkout editable install to a
+non\-empty, non\-repo directory.
+.UNINDENT
+.sp
+\fB0.4\fP
+.INDENT 0.0
+.IP \(bu 2
+Make \fB\-e\fP work better with local hg repositories
+.IP \(bu 2
+Construct PyPI URLs the exact way easy_install constructs URLs (you
+might notice this if you use a custom index that is
+slash\-sensitive).
+.IP \(bu 2
+Improvements on Windows (from \fI\%Ionel Maries Cristian\fP).
+.IP \(bu 2
+Fixed problem with not being able to install private git repositories.
+.IP \(bu 2
+Make \fBpip zip\fP zip all its arguments, not just the first.
+.IP \(bu 2
+Fix some filename issues on Windows.
+.IP \(bu 2
+Allow the \fB\-i\fP and \fB\-\-extra\-index\-url\fP options in requirements
+files.
+.IP \(bu 2
+Fix the way bundle components are unpacked and moved around, to make
+bundles work.
+.IP \(bu 2
+Adds \fB\-s\fP option to allow the access to the global site\-packages if a
+virtualenv is to be created.
+.IP \(bu 2
+Fixed support for Subversion 1.6.
+.UNINDENT
+.sp
+\fB0.3.1\fP
+.INDENT 0.0
+.IP \(bu 2
+Improved virtualenv restart and various path/cleanup problems on win32.
+.IP \(bu 2
+Fixed a regression with installing from svn repositories (when not
+using \fB\-e\fP).
+.IP \(bu 2
+Fixes when installing editable packages that put their source in a
+subdirectory (like \fBsrc/\fP).
+.IP \(bu 2
+Improve \fBpip \-h\fP
+.UNINDENT
+.sp
+\fB0.3\fP
+.INDENT 0.0
+.IP \(bu 2
+Added support for editable packages created from Git, Mercurial and Bazaar
+repositories and ability to freeze them. Refactored support for version
+control systems.
+.IP \(bu 2
+Do not use \fBsys.exit()\fP from inside the code, instead use a
+return.  This will make it easier to invoke programmatically.
+.IP \(bu 2
+Put the install record in \fBPackage.egg\-info/installed\-files.txt\fP
+(previously they went in
+\fBsite\-packages/install\-record\-Package.txt\fP).
+.IP \(bu 2
+Fix a problem with \fBpip freeze\fP not including \fB\-e svn+\fP when an
+svn structure is peculiar.
+.IP \(bu 2
+Allow \fBpip \-E\fP to work with a virtualenv that uses a different
+version of Python than the parent environment.
+.IP \(bu 2
+Fixed Win32 virtualenv (\fB\-E\fP) option.
+.IP \(bu 2
+Search the links passed in with \fB\-f\fP for packages.
+.IP \(bu 2
+Detect zip files, even when the file doesn\(aqt have a \fB\&.zip\fP
+extension and it is served with the wrong Content\-Type.
+.IP \(bu 2
+Installing editable from existing source now works, like \fBpip
+install \-e some/path/\fP will install the package in \fBsome/path/\fP\&.
+Most importantly, anything that package requires will also be
+installed by pip.
+.IP \(bu 2
+Add a \fB\-\-path\fP option to \fBpip un/zip\fP, so you can avoid zipping
+files that are outside of where you expect.
+.IP \(bu 2
+Add \fB\-\-simulate\fP option to \fBpip zip\fP\&.
+.UNINDENT
+.sp
+\fB0.2.1\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed small problem that prevented using \fBpip.py\fP without actually
+installing pip.
+.IP \(bu 2
+Fixed \fB\-\-upgrade\fP, which would download and appear to install
+upgraded packages, but actually just reinstall the existing package.
+.IP \(bu 2
+Fixed Windows problem with putting the install record in the right
+place, and generating the \fBpip\fP script with Setuptools.
+.IP \(bu 2
+Download links that include embedded spaces or other unsafe
+characters (those characters get %\-encoded).
+.IP \(bu 2
+Fixed use of URLs in requirement files, and problems with some blank
+lines.
+.IP \(bu 2
+Turn some tar file errors into warnings.
+.UNINDENT
+.sp
+\fB0.2\fP
+.INDENT 0.0
+.IP \(bu 2
+Renamed to \fBpip\fP, and to install you now do \fBpip install
+PACKAGE\fP
+.IP \(bu 2
+Added command \fBpip zip PACKAGE\fP and \fBpip unzip PACKAGE\fP\&.  This
+is particularly intended for Google App Engine to manage libraries
+to stay under the 1000\-file limit.
+.IP \(bu 2
+Some fixes to bundles, especially editable packages and when
+creating a bundle using unnamed packages (like just an svn
+repository without \fB#egg=Package\fP).
+.UNINDENT
+.sp
+\fB0.1.4\fP
+.INDENT 0.0
+.IP \(bu 2
+Added an option \fB\-\-install\-option\fP to pass options to pass
+arguments to \fBsetup.py install\fP
+.IP \(bu 2
+\fB\&.svn/\fP directories are no longer included in bundles, as these
+directories are specific to a version of svn \-\- if you build a
+bundle on a system with svn 1.5, you can\(aqt use the checkout on a
+system with svn 1.4.  Instead a file \fBsvn\-checkout.txt\fP is
+included that notes the original location and revision, and the
+command you can use to turn it back into an svn checkout.  (Probably
+unpacking the bundle should, maybe optionally, recreate this
+information \-\- but that is not currently implemented, and it would
+require network access.)
+.IP \(bu 2
+Avoid ambiguities over project name case, where for instance
+MyPackage and mypackage would be considered different packages.
+This in particular caused problems on Macs, where \fBMyPackage/\fP and
+\fBmypackage/\fP are the same directory.
+.IP \(bu 2
+Added support for an environmental variable
+\fB$PIP_DOWNLOAD_CACHE\fP which will cache package downloads, so
+future installations won\(aqt require large downloads.  Network access
+is still required, but just some downloads will be avoided when
+using this.
+.UNINDENT
+.sp
+\fB0.1.3\fP
+.INDENT 0.0
+.IP \(bu 2
+Always use \fBsvn checkout\fP (not \fBexport\fP) so that
+\fBtag_svn_revision\fP settings give the revision of the package.
+.IP \(bu 2
+Don\(aqt update checkouts that came from \fB\&.pybundle\fP files.
+.UNINDENT
+.sp
+\fB0.1.2\fP
+.INDENT 0.0
+.IP \(bu 2
+Improve error text when there are errors fetching HTML pages when
+seeking packages.
+.IP \(bu 2
+Improve bundles: include empty directories, make them work with
+editable packages.
+.IP \(bu 2
+If you use \fB\-E env\fP and the environment \fBenv/\fP doesn\(aqt exist, a
+new virtual environment will be created.
+.IP \(bu 2
+Fix \fBdependency_links\fP for finding packages.
+.UNINDENT
+.sp
+\fB0.1.1\fP
+.INDENT 0.0
+.IP \(bu 2
+Fixed a NameError exception when running pip outside of a
+virtualenv environment.
+.IP \(bu 2
+Added HTTP proxy support (from Prabhu Ramachandran)
+.IP \(bu 2
+Fixed use of \fBhashlib.md5\fP on python2.5+ (also from Prabhu
+Ramachandran)
+.UNINDENT
+.sp
+\fB0.1\fP
+.INDENT 0.0
+.IP \(bu 2
+Initial release
+.UNINDENT
+.SH COPYRIGHT
+2008-2016, PyPA
+.\" Generated by docutils manpage writer.
+.
